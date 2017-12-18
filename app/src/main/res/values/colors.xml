@@ -3,4 +3,26 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <!-- Category Colors -->
+    <!-- TODO WIP -->
+    <color name="colorNews">#F44336</color>
+    <color name="colorNewsLight">#E57373</color>
+
+    <color name="colorFeatures">#2196F3</color>
+    <color name="colorFeaturesLight">#64B5F6</color>
+
+    <color name="colorLifestyle">#673AB7</color>
+    <color name="colorLifestyleLight">#9575CD</color>
+
+    <color name="colorEntertainment">#FF9800</color>
+    <color name="colorEntertainmentLight">#FFB74D</color>\
+
+    <color name="colorReviews">#607D8B</color>
+    <color name="colorReviewsLight">#90A4AE</color>
+
+    <color name="colorSport">#8BC34A</color>
+    <color name="colorSportLight">#AED581</color>
+
 </resources>
