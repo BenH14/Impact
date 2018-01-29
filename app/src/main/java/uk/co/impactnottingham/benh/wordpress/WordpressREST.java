@@ -2,17 +2,16 @@ package uk.co.impactnottingham.benh.wordpress;
 
 import android.util.JsonReader;
 import android.util.Log;
-import uk.co.impactnottingham.benh.impact.MainActivity;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +47,19 @@ public class WordpressREST {
     //CONSTANTS
     private static final String POSTS_ENDPOINT_ADDRESS = "https://impactnottingham/wp-json/wp/v2/posts";
 
+    public List<Article> parseArticles(JsonReader json) throws IOException {
+
+        List<Article> articles = new ArrayList<>();
+
+        json.beginArray();
+        while (json.hasNext()) {
+            articles.add(new Article.Builder().parseJSON(json));
+        }
+        json.endArray();
+        json.close();
+
+        return articles;
+    }
 
     public JsonReader getPostsJson(RequestParameters params) {
 

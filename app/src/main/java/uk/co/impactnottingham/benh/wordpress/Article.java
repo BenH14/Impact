@@ -33,7 +33,7 @@ public class Article implements Headline {
     /**
      * All fields in this class are mandatory.
      */
-    public class Builder {
+    public static class Builder {
         private String   date;
         private long     id;
         private String   link;
