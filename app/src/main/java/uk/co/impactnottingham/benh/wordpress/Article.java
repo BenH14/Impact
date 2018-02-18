@@ -138,8 +138,10 @@ public class Article implements Headline {
                     setSticky(json.nextBoolean());
                 } else if (name.equals("categories")) {
                     //todo
+                    json.skipValue();
                 } else if (name.equals("tags")) {
                     //todo
+                    json.skipValue();
                 } else {
                     json.skipValue();
                 }
