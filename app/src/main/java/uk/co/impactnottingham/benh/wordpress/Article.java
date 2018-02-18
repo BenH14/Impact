@@ -30,6 +30,9 @@ public class Article implements Headline {
     private final String[] mTags;
     private final String[] mCategories;
 
+    private boolean mLoaded;
+    private LoadCallback mLoadCallback;
+
     /**
      * All fields in this class are mandatory.
      */
@@ -168,6 +171,9 @@ public class Article implements Headline {
 
 
     private Article(String date, long id, String link, String title, String content, int author, String excerpt, int featured_media, boolean sticky, String[] categories, String[] tags) throws MalformedURLException {
+
+        mLoaded = false;
+
         mId = id;
         mLink = new URL(link);
         mTitle = title;
@@ -191,12 +197,12 @@ public class Article implements Headline {
 
     @Override
     public String getSnippet() {
-        return null;  // todo
+        return mSnippet;
     }
 
     @Override
     public Image getImage() {
-        return null;
+        return null; //todo fetch image
     }
 
     @Override
@@ -205,12 +211,20 @@ public class Article implements Headline {
     }
 
     @Override
-    public void load() {
+    public void loadResources() {
+        //todo load images etc
+        if (mLoadCallback == null) {
+            throw new IllegalStateException("Tried to call load before load callback has been set");
+        } else if (mLoadCallback.getTriggered()) {
+            throw new IllegalStateException("Load callback has already been triggered, you are trying to load the article twice");
+        }
 
+
+        mLoaded = true;
     }
 
     @Override
     public void setLoadCallback(LoadCallback callback) {
-
+        mLoadCallback = callback;
     }
 }

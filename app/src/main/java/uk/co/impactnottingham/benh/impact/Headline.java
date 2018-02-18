@@ -13,6 +13,6 @@ public interface Headline {
 
     Article getArticle();
 
-    void load();
+    void loadResources();
     void setLoadCallback(LoadCallback callback);
 }
