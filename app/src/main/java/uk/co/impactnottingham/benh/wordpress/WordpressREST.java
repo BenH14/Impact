@@ -37,7 +37,7 @@ public class WordpressREST {
         }
 
         HttpsURLConnection addRequestHeaders(HttpsURLConnection connection) {
-            for (Map.Entry<String, String> e: mRequestParameters.entrySet()) {
+            for (Map.Entry<String, String> e : mRequestParameters.entrySet()) {
                 connection.setRequestProperty(e.getKey(), e.getValue());
             }
             return connection;
@@ -64,13 +64,13 @@ public class WordpressREST {
     public JsonReader getPostsJson(RequestParameters params) {
 
         try {
-            URL postsURL = new URL(POSTS_ENDPOINT_ADDRESS);
+            URL                postsURL   = new URL(POSTS_ENDPOINT_ADDRESS);
             HttpsURLConnection connection = (HttpsURLConnection) postsURL.openConnection();
             connection = params.addRequestHeaders(connection);
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpsURLConnection.HTTP_OK) {
-                InputStream responseStream = connection.getInputStream();
+                InputStream       responseStream       = connection.getInputStream();
                 InputStreamReader responseStreamReader = new InputStreamReader(responseStream, "UTF-8");
                 return new JsonReader(responseStreamReader);
             } else {
