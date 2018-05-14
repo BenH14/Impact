@@ -10,9 +10,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by benh14 on 1/26/18.
@@ -20,7 +18,6 @@ import java.util.Map;
 public class WordpressREST {
 
     private static final String TAG = WordpressREST.class.getName();
-
 
 
     //CONSTANTS
@@ -43,9 +40,10 @@ public class WordpressREST {
     private JsonReader getPostsJson(RequestParameters params) throws IOException {
 
         try {
-            URL                postsURL   = new URL(POSTS_ENDPOINT_ADDRESS);
+            URL postsURL = new URL(POSTS_ENDPOINT_ADDRESS);
+            postsURL = params.addRequestParams(postsURL);
+
             HttpsURLConnection connection = (HttpsURLConnection) postsURL.openConnection();
-            connection = params.addRequestHeaders(connection);
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpsURLConnection.HTTP_OK) {

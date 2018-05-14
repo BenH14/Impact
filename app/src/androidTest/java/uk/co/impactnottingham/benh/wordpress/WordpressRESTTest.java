@@ -1,14 +1,10 @@
 package uk.co.impactnottingham.benh.wordpress;
 
-import android.util.JsonReader;
-import android.util.Log;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by bth on 14/05/2018.
@@ -24,21 +20,20 @@ public class WordpressRESTTest {
 
 
     @Test
-    public void TestArticleFetchesSomething() {
+    public void TestArticleFetchesSomething() throws IOException {
+        Assert.assertNotEquals(0, wprest.getArticlesList(new RequestParameters()).size());
+    }
+
+    @Test
+    public void testNumberOfArticlesFetched() throws IOException {
         RequestParameters params = new RequestParameters();
-        JsonReader json = wprest.getPostsJson(new RequestParameters());
+        params.addParameter("per_page", "4");
+        Assert.assertEquals(4, wprest.getArticlesList(params).size());
 
-        Assert.assertNotNull(json);
+        params = new RequestParameters();
+        params.addParameter("per_page", "22");
+        Assert.assertEquals(22, wprest.getArticlesList(params).size());
 
-        List<Article> l = new ArrayList<>();
-
-        try {
-            l = wprest.parseArticles(json);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Assert.assertNotEquals(0, l.size());
     }
 
 }
