@@ -37,13 +37,15 @@ public class WordpressREST {
         return articles;
     }
 
-    private JsonReader getPostsJson(RequestParameters params) throws IOException {
+    private JsonReader getPostsJson( RequestParameters params) throws IOException {
+        return getJson(new URL(POSTS_ENDPOINT_ADDRESS), params);
+    }
 
+    private JsonReader getJson(URL rootURL, RequestParameters params) throws IOException {
         try {
-            URL postsURL = new URL(POSTS_ENDPOINT_ADDRESS);
-            postsURL = params.addRequestParams(postsURL);
+            URL url = params.addRequestParams(rootURL);
 
-            HttpsURLConnection connection = (HttpsURLConnection) postsURL.openConnection();
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpsURLConnection.HTTP_OK) {
@@ -62,7 +64,6 @@ public class WordpressREST {
         }
 
         throw new IOException("No JSON Returned on http request, is the website down?");
-
     }
 
     List<Article> getArticlesList(RequestParameters params) throws IOException {
