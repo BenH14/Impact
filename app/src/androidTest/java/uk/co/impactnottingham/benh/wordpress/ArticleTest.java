@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static org.junit.Assert.*;
 
@@ -46,6 +48,7 @@ public class ArticleTest {
 
     @Test
     public void setDate() {
+        Assert.assertEquals(new GregorianCalendar(2018, 1, 26, 10, 42, 25),mArticle.getDate());
     }
 
     @Test

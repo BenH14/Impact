@@ -9,8 +9,7 @@ import uk.co.impactnottingham.benh.impact.LoadCallback;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
-import java.util.IllegalFormatException;
+import java.util.GregorianCalendar;
 
 /**
  * Created by benh14 on 12/18/17.
@@ -19,19 +18,19 @@ public class Article implements Headline {
 
     private static final String TAG = Article.class.getName();
 
-    private final long     mId;
-    private final String   mTitle;
-    private final Date     mDate;
-    private final URL      mLink;
-    private final int      mAuthor;
-    private final String   mContent;
-    private final String   mSnippet;
-    private final int      mImage;
-    private final boolean  mSticky;
-    private final String[] mTags;
-    private final String[] mCategories;
+    private final long              mId;
+    private final String            mTitle;
+    private final GregorianCalendar mDate;
+    private final URL               mLink;
+    private final int               mAuthor;
+    private final String            mContent;
+    private final String            mSnippet;
+    private final int               mImage;
+    private final boolean           mSticky;
+    private final String[]          mTags;
+    private final String[]          mCategories;
 
-    private boolean mLoaded;
+    private boolean      mLoaded;
     private LoadCallback mLoadCallback;
 
     /**
@@ -157,7 +156,7 @@ public class Article implements Headline {
 
         }
 
-        private String getRendered(JsonReader json) throws IOException{
+        private String getRendered(JsonReader json) throws IOException {
             String val = null;
 
             json.beginObject();
@@ -169,7 +168,7 @@ public class Article implements Headline {
                 }
             }
             json.endObject();
-            
+
             if (val != null) {
                 return val;
             } else {
@@ -202,7 +201,8 @@ public class Article implements Headline {
     public long getId() {
         return mId;
     }
-    public Date getDate() {
+
+    public GregorianCalendar getDate() {
         return mDate;
     }
 
