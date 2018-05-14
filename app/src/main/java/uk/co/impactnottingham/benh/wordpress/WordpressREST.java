@@ -36,7 +36,7 @@ public class WordpressREST {
             mRequestParameters.put(key, value);
         }
 
-        HttpsURLConnection addRequestHeaders(HttpsURLConnection connection) {
+        private HttpsURLConnection addRequestHeaders(HttpsURLConnection connection) {
             for (Map.Entry<String, String> e : mRequestParameters.entrySet()) {
                 connection.setRequestProperty(e.getKey(), e.getValue());
             }
@@ -45,7 +45,7 @@ public class WordpressREST {
     }
 
     //CONSTANTS
-    private static final String POSTS_ENDPOINT_ADDRESS = "https://impactnottingham/wp-json/wp/v2/posts";
+    private static final String POSTS_ENDPOINT_ADDRESS = "https://impactnottingham.com/wp-json/wp/v2/posts";
 
     public List<Article> parseArticles(JsonReader json) throws IOException {
 
