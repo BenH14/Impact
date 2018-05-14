@@ -21,28 +21,7 @@ public class WordpressREST {
 
     private static final String TAG = WordpressREST.class.getName();
 
-    /**
-     * This is not a very safe way of doing parameters (may fail silently)
-     * but it allows the code to be much simpler.
-     */
-    class RequestParameters {
-        private Map<String, String> mRequestParameters;
 
-        public RequestParameters() {
-            mRequestParameters = new HashMap<>();
-        }
-
-        public void addParameter(String key, String value) {
-            mRequestParameters.put(key, value);
-        }
-
-        private HttpsURLConnection addRequestHeaders(HttpsURLConnection connection) {
-            for (Map.Entry<String, String> e : mRequestParameters.entrySet()) {
-                connection.setRequestProperty(e.getKey(), e.getValue());
-            }
-            return connection;
-        }
-    }
 
     //CONSTANTS
     private static final String POSTS_ENDPOINT_ADDRESS = "https://impactnottingham.com/wp-json/wp/v2/posts";
