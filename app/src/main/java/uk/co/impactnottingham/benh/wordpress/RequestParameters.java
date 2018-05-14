@@ -1,9 +1,5 @@
 package uk.co.impactnottingham.benh.wordpress;
 
-/**
- * Created by bth on 14/05/2018.
- */
-
 import javax.net.ssl.HttpsURLConnection;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +7,8 @@ import java.util.Map;
 /**
  * This is not a very safe way of doing parameters (may fail silently)
  * but it allows the code to be much simpler.
+ *
+ * @author BenH14
  */
 class RequestParameters {
     private Map<String, String> mRequestParameters;
