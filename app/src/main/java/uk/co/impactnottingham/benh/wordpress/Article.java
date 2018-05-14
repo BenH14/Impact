@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.IllegalFormatException;
 
 /**
  * Created by benh14 on 12/18/17.
@@ -121,9 +122,9 @@ public class Article implements Headline {
             while (json.hasNext()) {
                 String name = json.nextName();
 
-                if (name.equals("date")) {
+                if (name.equals("id")) {
                     setId(json.nextLong());
-                } else if (name.equals("id")) {
+                } else if (name.equals("date")) {
                     setDate(json.nextString());
                 } else if (name.equals("link")) {
                     setLink(json.nextString());
@@ -157,15 +158,24 @@ public class Article implements Headline {
         }
 
         private String getRendered(JsonReader json) throws IOException{
-            String val = "";
+            String val = null;
 
             json.beginObject();
-            if (json.nextName().equals("rendered")) {
-                val = json.nextString();
+            while (json.hasNext()) {
+                if (json.nextName().equals("rendered")) {
+                    val = json.nextString();
+                } else {
+                    json.skipValue();
+                }
             }
             json.endObject();
-
-            return val;
+            
+            if (val != null) {
+                return val;
+            } else {
+                Log.e(TAG, "JSON data handed to getRendered() did not contain a name that equals \"rendered\"");
+                return "ERROR NAME NOT FOUND";
+            }
         }
     }
 
@@ -187,6 +197,41 @@ public class Article implements Headline {
 
 
         mDate = null; //TODO parse text date
+    }
+
+    public long getId() {
+        return mId;
+    }
+    public Date getDate() {
+        return mDate;
+    }
+
+    public URL getLink() {
+        return mLink;
+    }
+
+    public int getAuthor() {
+        return mAuthor;
+    }
+
+    public String getContent() {
+        return mContent;
+    }
+
+    public boolean isSticky() {
+        return mSticky;
+    }
+
+    public String[] getTags() {
+        return mTags;
+    }
+
+    public String[] getCategories() {
+        return mCategories;
+    }
+
+    public boolean isLoaded() {
+        return mLoaded;
     }
 
 

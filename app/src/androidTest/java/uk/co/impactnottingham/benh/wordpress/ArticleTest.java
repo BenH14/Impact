@@ -1,11 +1,11 @@
 package uk.co.impactnottingham.benh.wordpress;
 
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.JsonReader;
 import org.json.JSONArray;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 /**
  * Created by benh14 on 1/28/18.
  */
+@RunWith(AndroidJUnit4.class)
 public class ArticleTest {
 
     private static final String JSON_FILENAME  = "posts_test_data_formatted.json";
@@ -24,12 +25,13 @@ public class ArticleTest {
     //Expected Values
     private static final String EXPECTED_TITLE = "Title";
 
-    private JsonReader mArticleJson;
-    private Article mArticle;
+    private static JsonReader mArticleJson;
+    private static Article mArticle;
 
-    @Before
-    public void setUp() throws Exception {
-        InputStream stream = new FileInputStream(new File(JSON_FILENAME));
+    @BeforeClass
+    public static void setUp() throws Exception {
+        //Copy file to device
+        InputStream stream = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(JSON_FILENAME);
         InputStreamReader streamReader = new InputStreamReader(stream, "UTF-8");
         mArticleJson = new JsonReader(streamReader);
         mArticle = new Article.Builder().parseJSON(mArticleJson);
@@ -40,9 +42,62 @@ public class ArticleTest {
         Assert.assertEquals(EXPECTED_TITLE, mArticle.getTitle());
     }
 
-    @After
-    public void tearDown() throws Exception {
-        mArticleJson.close();
+
+
+    @Test
+    public void setDate() {
     }
 
+    @Test
+    public void setId() {
+    }
+
+    @Test
+    public void setLink() {
+    }
+
+    @Test
+    public void setTitle() {
+    }
+
+    @Test
+    public void setContent() {
+    }
+
+    @Test
+    public void setAuthor() {
+    }
+
+    @Test
+    public void setExcerpt() {
+    }
+
+    @Test
+    public void setFeatured_media() {
+    }
+
+    @Test
+    public void setSticky() {
+    }
+
+    @Test
+    public void setCategories() {
+    }
+
+    @Test
+    public void setTags() {
+    }
+
+    @Test
+    public void build() {
+    }
+
+    @Test
+    public void parseJSON() {
+    }
+
+    @AfterClass
+    public static void tearDown() throws Exception {
+        mArticleJson.close();
+    }
 }
