@@ -266,6 +266,7 @@ public class Article implements Headline {
 
 
         mLoaded = true;
+        mLoadCallback.onLoad();
     }
 
     @Override
