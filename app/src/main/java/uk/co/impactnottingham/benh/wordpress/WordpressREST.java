@@ -26,7 +26,7 @@ public class WordpressREST {
     //CONSTANTS
     private static final String POSTS_ENDPOINT_ADDRESS = "https://impactnottingham.com/wp-json/wp/v2/posts";
 
-    public List<Article> parseArticles(JsonReader json) throws IOException {
+    private List<Article> parseArticles(JsonReader json) throws IOException {
 
         List<Article> articles = new ArrayList<>();
 
@@ -40,7 +40,7 @@ public class WordpressREST {
         return articles;
     }
 
-    public JsonReader getPostsJson(RequestParameters params) {
+    private JsonReader getPostsJson(RequestParameters params) throws IOException {
 
         try {
             URL                postsURL   = new URL(POSTS_ENDPOINT_ADDRESS);
@@ -63,7 +63,22 @@ public class WordpressREST {
             e.printStackTrace();
         }
 
-        return null;
+        throw new IOException("No JSON Returned on http request, is the website down?");
 
+    }
+
+    List<Article> getArticlesList(RequestParameters params) throws IOException {
+        JsonReader json = getPostsJson(params);
+
+        List<Article> list = new ArrayList<>();
+
+        try {
+            list = parseArticles(json);
+            json.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }
