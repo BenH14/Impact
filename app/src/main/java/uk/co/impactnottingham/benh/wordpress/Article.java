@@ -9,7 +9,12 @@ import uk.co.impactnottingham.benh.impact.LoadCallback;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by benh14 on 12/18/17.
@@ -194,8 +199,16 @@ public class Article implements Headline {
         mCategories = categories;
         mTags = tags;
 
+//        Log.e(TAG, String.valueOf(mImage));
 
-        mDate = null; //TODO parse text date
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.UK);
+        mDate = new GregorianCalendar();
+        try {
+            mDate.setTime(df.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public long getId() {

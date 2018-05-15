@@ -3,23 +3,16 @@ package uk.co.impactnottingham.benh.wordpress;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.JsonReader;
-import org.json.JSONArray;
 import org.junit.*;
 import org.junit.runner.RunWith;
-import uk.co.impactnottingham.benh.impact.LoadCallback;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by benh14 on 1/28/18.
@@ -31,7 +24,7 @@ public class ArticleTest {
 
     //Expected Values
     private static final String            EXPECTED_TITLE       = "Title";
-    private static final GregorianCalendar EXPECTED_DATE        = new GregorianCalendar(2018, 1, 26, 10, 42, 25);
+    private static final GregorianCalendar EXPECTED_DATE        = new GregorianCalendar(2018, 0, 26, 10, 42, 25);  // Months are 0 indexed
     private static final int               EXPECTED_ID          = 116742;
     private static final boolean           EXPECTED_STICKY      = false;
     private static final String            EXPECTED_SNIPPET     = "T";
@@ -54,7 +47,6 @@ public class ArticleTest {
                                                                    "winter"};
 
 
-    private static JsonReader mArticleJson;
     private static Article    mArticle;
 
     @BeforeClass
@@ -62,7 +54,7 @@ public class ArticleTest {
         //Copy file to device
         InputStream       stream       = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(JSON_FILENAME);
         InputStreamReader streamReader = new InputStreamReader(stream, "UTF-8");
-        mArticleJson = new JsonReader(streamReader);
+        JsonReader        mArticleJson = new JsonReader(streamReader);
         mArticle = new Article.Builder().parseJSON(mArticleJson);
         mArticleJson.close();
 
@@ -85,7 +77,7 @@ public class ArticleTest {
     @Test
     public void testJsonParseDate() {
         try {
-            Assert.assertEquals(0, EXPECTED_DATE.compareTo(mArticle.getDate()));  // Returns 0 if they're equal
+            Assert.assertEquals(EXPECTED_DATE.getTimeInMillis(), mArticle.getDate().getTimeInMillis());  // Returns 0 if they're equal
         } catch (NullPointerException notSet) {
             Assert.fail("Article Null Pointer Exception");
         }
