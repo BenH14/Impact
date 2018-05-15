@@ -54,9 +54,9 @@ public class ArticleTest {
         //Copy file to device
         InputStream       stream       = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(JSON_FILENAME);
         InputStreamReader streamReader = new InputStreamReader(stream, "UTF-8");
-        JsonReader        mArticleJson = new JsonReader(streamReader);
-        mArticle = new Article.Builder().parseJSON(mArticleJson);
-        mArticleJson.close();
+        JsonReader        articleJson = new JsonReader(streamReader);
+        mArticle = new Article.Builder().parseJSON(articleJson);
+        articleJson.close();
 
         CountDownLatch cdl = new CountDownLatch(1);
 
