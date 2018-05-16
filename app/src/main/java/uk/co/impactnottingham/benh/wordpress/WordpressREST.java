@@ -1,8 +1,13 @@
 package uk.co.impactnottingham.benh.wordpress;
 
+import android.content.Context;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import com.bumptech.glide.Glide;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -49,8 +54,8 @@ public class WordpressREST {
         return getJson(new URL(POSTS_ENDPOINT_ADDRESS), params);
     }
 
-    JsonReader getMediaJson(int postID, RequestParameters params) throws IOException {
-        return getJson(new URL(MEDIA_ENDPOINT_ADDRESS + String.valueOf(postID)), params);
+    private JsonReader getMediaJson(int mediaId) throws IOException {
+        return getJson(new URL(MEDIA_ENDPOINT_ADDRESS + String.valueOf(mediaId)), new RequestParameters());
     }
 
     URL getImageLink(JsonReader json, int size) throws IOException {
@@ -92,6 +97,11 @@ public class WordpressREST {
         }
 
         return url;
+    }
+
+    URL loadImageLink(int id, int size) throws IOException {
+        JsonReader json = getMediaJson(id);
+        return getImageLink(json, size);
     }
 
     private JsonReader getJson(URL rootURL, RequestParameters params) throws IOException {
