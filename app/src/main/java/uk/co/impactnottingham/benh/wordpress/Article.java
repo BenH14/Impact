@@ -1,6 +1,5 @@
 package uk.co.impactnottingham.benh.wordpress;
 
-import android.media.Image;
 import android.util.JsonReader;
 import android.util.Log;
 import uk.co.impactnottingham.benh.impact.Headline;
@@ -9,10 +8,8 @@ import uk.co.impactnottingham.benh.impact.LoadCallback;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -259,8 +256,8 @@ public class Article implements Headline {
     }
 
     @Override
-    public Image getImage() {
-        return null; //todo fetch image
+    public int getImageId() {
+        return mImage;
     }
 
     @Override

@@ -55,7 +55,7 @@ public class WordpressREST {
 
     URL getImageLink(JsonReader json, int size) throws IOException {
 
-        URL url = null;
+        URL    url = null;
         String sizeName;
 
         switch (size) {
@@ -92,10 +92,6 @@ public class WordpressREST {
         }
 
         return url;
-    }
-
-    Image getImage(JsonReader json) {
-        return null; //todo
     }
 
     private JsonReader getJson(URL rootURL, RequestParameters params) throws IOException {

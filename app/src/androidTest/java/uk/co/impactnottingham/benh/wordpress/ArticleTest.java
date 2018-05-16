@@ -110,7 +110,7 @@ public class ArticleTest {
 
     @Test
     public void testJsonParseImage() {
-        Assert.assertNotNull(mArticle.getImage());
+        Assert.assertEquals(1234, mArticle.getImageId());
     }
 
     @Test

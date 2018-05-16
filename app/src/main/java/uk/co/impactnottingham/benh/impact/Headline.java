@@ -1,6 +1,5 @@
 package uk.co.impactnottingham.benh.impact;
 
-import android.media.Image;
 import uk.co.impactnottingham.benh.wordpress.Article;
 
 /**
@@ -9,7 +8,7 @@ import uk.co.impactnottingham.benh.wordpress.Article;
 public interface Headline {
     String getTitle();
     String getSnippet();
-    Image getImage();
+    int getImageId();
 
     Article getArticle();
 
