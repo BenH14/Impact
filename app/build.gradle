@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "uk.co.impactnottingham.benh.impact"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -33,6 +33,8 @@ dependencies {
 //    })
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+
 
     //Test
     testImplementation 'junit:junit:4.12'
