@@ -1,5 +1,7 @@
 package uk.co.impactnottingham.benh.wordpress;
 
+import android.os.Build;
+import android.text.Html;
 import android.util.JsonReader;
 import android.util.Log;
 import uk.co.impactnottingham.benh.impact.Headline;
@@ -67,7 +69,12 @@ public class Article implements Headline {
         }
 
         public Builder setTitle(String title) {
-            this.title = title;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                this.title = String.valueOf(Html.fromHtml(title, Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                //noinspection deprecation
+                this.title = String.valueOf(Html.fromHtml(title));
+            }
             return this;
         }
 
