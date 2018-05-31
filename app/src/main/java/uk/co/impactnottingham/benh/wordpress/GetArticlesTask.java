@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by bth on 20/05/2018.
+ * Created by benh14 on 20/05/2018.
  */
 public class GetArticlesTask extends AsyncTask<RequestParameters, Void, Void> {
     private static final String TAG = "GetArticlesTask";

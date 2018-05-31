@@ -14,10 +14,10 @@ import java.util.Map;
  *
  * @author BenH14
  */
-class RequestParameters {
+public class RequestParameters {
     private Map<String, String> mRequestParameters;
 
-    RequestParameters() {
+    public RequestParameters() {
         mRequestParameters = new HashMap<>();
     }
 

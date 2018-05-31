@@ -129,7 +129,7 @@ public class WordpressREST {
         throw new IOException("No JSON Returned on http request, is the website down?");
     }
 
-    List<Article> getArticlesList(RequestParameters params) throws IOException {
+    public List<Article> getArticlesList(RequestParameters params) throws IOException {
         JsonReader json = getPostsJson(params);
 
         List<Article> list = new ArrayList<>();

@@ -1,6 +1,7 @@
 package uk.co.impactnottingham.benh.wordpress;
 
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.text.Html;
 import android.util.JsonReader;
 import android.util.Log;
@@ -69,12 +70,7 @@ public class Article implements Headline {
         }
 
         public Builder setTitle(String title) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                this.title = String.valueOf(Html.fromHtml(title, Html.FROM_HTML_MODE_COMPACT));
-            } else {
-                //noinspection deprecation
-                this.title = String.valueOf(Html.fromHtml(title));
-            }
+            this.title = title;
             return this;
         }
 
@@ -137,13 +133,13 @@ public class Article implements Headline {
                 } else if (name.equals("link")) {
                     setLink(json.nextString());
                 } else if (name.equals("title")) {
-                    setTitle(getRendered(json));
+                    setTitle(fromHTML(getRendered(json)));
                 } else if (name.equals("content")) {
-                    setContent(getRendered(json));
+                    setContent(getRendered(json));  // todo do we need to convert from html?
                 } else if (name.equals("author")) {
                     setAuthor(json.nextInt());
                 } else if (name.equals("excerpt")) {
-                    setExcerpt(getRendered(json));
+                    setExcerpt(fromHTML(getRendered(json)));
                 } else if (name.equals("featured_media")) {
                     setFeatured_media(json.nextInt());
                 } else if (name.equals("sticky")) {
@@ -183,6 +179,15 @@ public class Article implements Headline {
             } else {
                 Log.e(TAG, "JSON data handed to getRendered() did not contain a name that equals \"rendered\"");
                 return "ERROR NAME NOT FOUND";
+            }
+        }
+
+        private String fromHTML(@NonNull String html) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return String.valueOf(Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT));
+            } else {
+                //noinspection deprecation
+                return String.valueOf(Html.fromHtml(html));
             }
         }
     }
