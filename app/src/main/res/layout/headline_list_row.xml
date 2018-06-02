@@ -1,60 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v7.widget.CardView
 
     xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:id="@+id/headline_container"
+    android:id="@+id/headline_card_view"
 
-    android:layout_width="match_parent"
     android:layout_height="108dp"
-    android:padding="4dp"
-    android:elevation="4dp">
+    android:layout_width="match_parent">
 
-    <ImageView
-        android:id="@+id/headline_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:padding="4dp"
 
-        android:background="@color/placeholderUIGrey"
-        android:contentDescription="@string/image_description_headline_image" />
-
-    <TextView
-        android:id="@+id/headline_title"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_toEndOf="@id/headline_image"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-
-        android:background="@color/placeholderUIGrey"
-        android:text="PLACEHOLDER HEADLINE"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/headline_excerpt"
+    <RelativeLayout
+        android:id="@+id/headline_container"
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="4dp"
+        android:elevation="4dp">
 
-        android:layout_toEndOf="@id/headline_image"
-        android:layout_below="@id/headline_title"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        <ImageView
+            android:id="@+id/headline_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="4dp"
+
+            android:background="@color/placeholderUIGrey"
+            android:contentDescription="@string/image_description_headline_image" />
+
+        <TextView
+            android:id="@+id/headline_title"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_toEndOf="@id/headline_image"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+
+            android:background="@color/placeholderUIGrey"
+            android:text="PLACEHOLDER HEADLINE"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/headline_excerpt"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_toEndOf="@id/headline_image"
+            android:layout_below="@id/headline_title"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
 
 
-        android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        android:textSize="14sp"
+            android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            android:textSize="14sp"
 
-        android:background="@color/placeholderUIGrey"
-        android:ellipsize="end"
+            android:background="@color/placeholderUIGrey"
+            android:ellipsize="end"
 
-        />
+            />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

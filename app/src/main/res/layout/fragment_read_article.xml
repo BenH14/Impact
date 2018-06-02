@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/article_parent_coordinator"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/article_app_bar"
+
+        android:layout_width="match_parent"
+        android:layout_height="192dp">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/article_collapsing_toolbar"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="8dp"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+            <ImageView
+                android:id="@+id/article_image"
+
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
+
+                app:layout_collapseMode="pin"
+
+                android:src="@drawable/ic_wallpaper_black_24dp" />
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/article_toolbar"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="pin" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--android:layout_below="@+id/article_app_bar">-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/article_headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Test" />
+
+            <TextView
+                android:id="@+id/article_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/article_headline"
+                android:background="@color/colorEntertainmentLight"
+                android:lines="1000"
+                android:text="Date\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\nDate\n" />
+
+            <WebView
+                android:id="@+id/article_html"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/article_date" />
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

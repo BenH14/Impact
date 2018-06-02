@@ -20,7 +20,7 @@ public enum Categories {
     private final int mColor;
     private final int mColorLight;
 
-    private Categories(int id, int color, int colorLight) {
+    Categories(int id, int color, int colorLight) {
         mColor = color;
         mColorLight = colorLight;
         mId = id;

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private final List<Article> articles;
 
     private RelativeLayout rootLayout;
+    private RecyclerView mRecyclerView;
+
+    private HeadlineAdapter mAdapter;
 
     public MainActivity() {
         articles = new ArrayList<>();
@@ -39,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         rootLayout = findViewById(R.id.activity_main);
+        mRecyclerView = findViewById(R.id.recycler_headlines);
+
+        mAdapter = new HeadlineAdapter(new ArrayList<>());
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
 
         Toolbar mainToolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(mainToolbar);
@@ -53,10 +64,9 @@ public class MainActivity extends AppCompatActivity {
         this.articles.addAll(newArticles);
         runOnUiThread(() -> {
             for (Article a : newArticles) {
-                addHeadline(a);
+                mAdapter.add(a);
             }
         });
-        addHeadline(newArticles.get(0));
     }
 
     @UiThread
