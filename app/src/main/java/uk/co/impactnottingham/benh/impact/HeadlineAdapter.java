@@ -52,7 +52,7 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
 
         View v = inflater.inflate(CARD_LAYOUT, parent, false);
 
-        // return the inflated recyler
+        // return the inflated recycler
         x++;
         HeadlineHolder h = (x % 3 == 0) ? new HeadlineHolder.FeaturedHeadlineHolder(v, parent.getContext()) : new HeadlineHolder.LandscapeHeadlineHolder(v, parent.getContext());
         h.setBreaking(true);
