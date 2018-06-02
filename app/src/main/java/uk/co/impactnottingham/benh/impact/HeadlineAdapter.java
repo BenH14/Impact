@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by benh14 on 12/22/17.
  */
-public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineAdapter.CardViewHolder> {
+public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
 
     private static final String TAG         = "HeadlineAdapter";
     private static final int    CARD_LAYOUT = R.layout.headline_list_row;
@@ -44,17 +44,17 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineAdapter.CardVi
 
     @NonNull
     @Override
-    public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HeadlineHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         View v = inflater.inflate(CARD_LAYOUT, parent, false);
 
         // return the inflated recyler
-        return new CardViewHolder(v);
+        return new HeadlineHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HeadlineHolder holder, int position) {
         holder.setArticle(mArticles.get(position));
     }
 
@@ -63,38 +63,4 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineAdapter.CardVi
         return mArticles.size();
     }
 
-    static class CardViewHolder extends RecyclerView.ViewHolder {
-
-        final ImageView mThumbnail;
-        final TextView  mTitle;
-        final TextView  mExcerpt;
-        final CardView  mCard;
-
-        CardViewHolder(View itemView) {
-            super(itemView);
-            mThumbnail = itemView.findViewById(R.id.headline_image);
-            mTitle = itemView.findViewById(R.id.headline_title);
-            mExcerpt = itemView.findViewById(R.id.headline_excerpt);
-            mCard = itemView.findViewById(R.id.headline_card_view);
-        }
-
-        void setArticle(Article article) {
-            mTitle.setText(article.getTitle());
-            mExcerpt.setText(article.getSnippet());
-
-            new GetImageLinkTask(WordpressREST.IMAGE_SIZE_THUMBNAIL, (URL url) -> itemView.post(() ->
-                    GlideApp.with(itemView.getContext())
-                            .asDrawable()
-                            .load(url.toString())
-                            .thumbnail(0.1f)
-                            .into((ImageView) itemView.findViewById(R.id.headline_image))
-            )).execute(article.getImageId());
-
-            mCard.setOnClickListener((View v) -> {
-                Toast.makeText(itemView.getContext(), "Card Clicked", Toast.LENGTH_LONG).show();
-                //todo
-            });
-        }
-
-    }
 }
