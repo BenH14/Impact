@@ -42,6 +42,9 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
         mArticles.clear();
     }
 
+
+    static int x = 0;
+
     @NonNull
     @Override
     public HeadlineHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,7 +53,10 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
         View v = inflater.inflate(CARD_LAYOUT, parent, false);
 
         // return the inflated recyler
-        return new HeadlineHolder(v);
+        x++;
+        HeadlineHolder h = (x % 3 == 0) ? new HeadlineHolder.FeaturedHeadlineHolder(v, parent.getContext()) : new HeadlineHolder.LandscapeHeadlineHolder(v, parent.getContext());
+        h.setBreaking(true);
+        return h;
     }
 
     @Override
