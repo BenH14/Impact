@@ -4,9 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <!--<color name="placeholderUIGrey">#BDBDBD</color>-->
-    <color name="placeholderUIGrey">#00FFFFFF</color>
-
 
     <!-- Category Colors -->
     <!-- TODO WIP -->
@@ -28,6 +25,6 @@
     <color name="colorSport">#8BC34A</color>
     <color name="colorSportLight">#AED581</color>
 
-    <color name="breaking_color">#FFb71c1c</color>
+    <color name="colorBreaking">#FFb71c1c</color>
 
 </resources>
