@@ -1,9 +1,6 @@
 package uk.co.impactnottingham.benh.impact;
 
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,30 +9,35 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import com.bumptech.glide.Glide;
-import uk.co.impactnottingham.benh.glide.AppGlideModuleImplementation;
 import uk.co.impactnottingham.benh.glide.GlideApp;
 import uk.co.impactnottingham.benh.wordpress.*;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    public static final int PRELOADED_ARTICLES_COUNT = 3;
+    public static final int ARTICLES_PER_REQUEST = 10;
 
     private final List<Article> articles;
 
     private RelativeLayout rootLayout;
     private RecyclerView mRecyclerView;
 
+    private int mPage;
+
+    private AtomicReference<Boolean> loading;
+
     private HeadlineAdapter mAdapter;
 
     public MainActivity() {
+        mPage = 1;
         articles = new ArrayList<>();
+        loading = new AtomicReference<>(false);
     }
 
     @Override
@@ -48,19 +50,48 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new HeadlineAdapter(new ArrayList<>());
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int itemCount = layoutManager.getItemCount();
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                Log.d(TAG, "onScrolled: itemCount = " + itemCount + "     last visible = " + lastVisibleItem);
+
+                if(itemCount - 1 <= lastVisibleItem) {
+                    loadArticles();
+                }
+            }
+        });
 
         Toolbar mainToolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(mainToolbar);
         mainToolbar.setTitle("Toolbar Title");
 
-        //Load Articles
-        new GetArticlesTask(this::onArticlesLoad).execute(new RequestParameters());
+        loadArticles();
+    }
+
+    private void loadArticles() {
+        if (!loading.getAndSet(true)) {
+            Log.d(TAG, "loadArticles: Loading new Articles");
+            RequestParameters params = new RequestParameters();
+            params.addParameter("page", String.valueOf(mPage));
+            params.addParameter("per_page", String.valueOf(ARTICLES_PER_REQUEST));
+
+            new GetArticlesTask(this::onArticlesLoad).execute(params);
+            mPage++;
+        }
     }
 
     private void onArticlesLoad(List<Article> newArticles) {
-        Log.d(TAG, "onArticlesLoad: New articles loaded");
+        Log.d(TAG, "onArticlesLoad: New articles loaded ");
+        loading.set(false);
+
         this.articles.addAll(newArticles);
         runOnUiThread(() -> {
             for (Article a : newArticles) {
