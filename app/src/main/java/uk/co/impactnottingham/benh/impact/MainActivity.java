@@ -19,9 +19,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-    public static final int PRELOADED_ARTICLES_COUNT = 3;
-    public static final int ARTICLES_PER_REQUEST = 10;
+    private static final String TAG                      = "MainActivity";
+    private static final int    ARTICLES_PER_REQUEST     = 10;
+    private static final int    SCROLL_LOAD_OFFSET       = 1;
 
     private final List<Article> articles;
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d(TAG, "onScrolled: itemCount = " + itemCount + "     last visible = " + lastVisibleItem);
 
-                if(itemCount - 1 <= lastVisibleItem) {
+                if(itemCount - SCROLL_LOAD_OFFSET <= lastVisibleItem) {
                     loadArticles();
                 }
             }
