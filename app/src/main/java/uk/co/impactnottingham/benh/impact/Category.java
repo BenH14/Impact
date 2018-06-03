@@ -1,13 +1,11 @@
 package uk.co.impactnottingham.benh.impact;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 
 /**
  * Created by benh14 on 1/31/18.
  */
-public enum Categories {
+public enum Category {
     NEWS(2, R.color.colorNews, R.color.colorNewsLight),
     FEATURES(7, R.color.colorFeatures, R.color.colorFeaturesLight),
     LIFESTYLE(19163, R.color.colorLifestyle, R.color.colorLifestyleLight),
@@ -20,7 +18,7 @@ public enum Categories {
     private final int mColor;
     private final int mColorLight;
 
-    Categories(int id, int color, int colorLight) {
+    Category(int id, int color, int colorLight) {
         mColor = color;
         mColorLight = colorLight;
         mId = id;

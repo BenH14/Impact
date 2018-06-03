@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.JsonReader;
 import org.junit.*;
 import org.junit.runner.RunWith;
+import uk.co.impactnottingham.benh.impact.Category;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,7 +32,8 @@ public class ArticleTest {
     private static final int               EXPECTED_AUTHOR_CODE = 123;
     private static final String            EXPECTED_CONTENT     = "Test";
     private static final String            EXPECTED_URL         = "https://impactnottingham.com/2018/01/test/";
-    private static final String[]          EXPECTED_CATEGORIES  = {"Comment", "Features", "Voices"};
+    private static final boolean           EXPECTED_BREAKING    = true;
+    private static final Category          EXPECTED_CATEGORIES  = Category.FEATURES;
     private static final String[]          EXPECTED_TAGS        = {"blue monday",
                                                                    "christmas",
                                                                    "comment",
@@ -47,14 +49,14 @@ public class ArticleTest {
                                                                    "winter"};
 
 
-    private static Article    mArticle;
+    private static Article mArticle;
 
     @BeforeClass
     public static void setUp() throws Exception {
         //Copy file to device
         InputStream       stream       = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(JSON_FILENAME);
         InputStreamReader streamReader = new InputStreamReader(stream, "UTF-8");
-        JsonReader        articleJson = new JsonReader(streamReader);
+        JsonReader        articleJson  = new JsonReader(streamReader);
         mArticle = new Article.Builder().parseJSON(articleJson);
         articleJson.close();
 
@@ -120,7 +122,8 @@ public class ArticleTest {
 
     @Test
     public void testJsonParseCategories() {
-        Assert.assertArrayEquals(EXPECTED_CATEGORIES, mArticle.getCategories());
+        Assert.assertEquals(EXPECTED_CATEGORIES, mArticle.getCategory());
+        Assert.assertEquals(EXPECTED_BREAKING, mArticle.isBreaking());
     }
 
     @Test

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.text.Html;
 import android.util.JsonReader;
 import android.util.Log;
+import uk.co.impactnottingham.benh.impact.Category;
 import uk.co.impactnottingham.benh.impact.Headline;
 import uk.co.impactnottingham.benh.impact.LoadCallback;
 
@@ -22,6 +23,7 @@ import java.util.Locale;
 public class Article implements Headline {
 
     private static final String TAG = Article.class.getName();
+    public static final int BREAKING_CATEGORY_ID = 19171;
 
     private final long              mId;
     private final String            mTitle;
@@ -32,8 +34,9 @@ public class Article implements Headline {
     private final String            mSnippet;
     private final int               mImage;
     private final boolean           mSticky;
+    private final boolean           mBreaking;
     private final String[]          mTags;
-    private final String[]          mCategories;
+    private final Category          mCategory;
 
     private boolean      mLoaded;
     private LoadCallback mLoadCallback;
@@ -51,7 +54,8 @@ public class Article implements Headline {
         private String   excerpt;
         private int      featured_media;
         private boolean  sticky;
-        private String[] categories;
+        private boolean  breaking;
+        private Category category;
         private String[] tags;
 
         public Builder setDate(String date) {
@@ -99,8 +103,20 @@ public class Article implements Headline {
             return this;
         }
 
-        public Builder setCategories(String[] categories) {
-            this.categories = categories;
+        public Builder setCategory(JsonReader json) throws IOException {
+            json.beginArray();
+            while (json.hasNext()) {
+                int categoryId = json.nextInt();
+                for (Category c : Category.values()) {
+                    if (categoryId == c.getId()) {
+                        category = c;
+                    }
+                }
+                if (categoryId == BREAKING_CATEGORY_ID) {
+                    breaking = true;
+                }
+            }
+            json.endArray();
             return this;
         }
 
@@ -111,7 +127,7 @@ public class Article implements Headline {
 
         public Article build() {
             try {
-                return new Article(date, id, link, title, content, author, excerpt, featured_media, sticky, categories, tags);
+                return new Article(date, id, link, title, content, author, excerpt, featured_media, sticky, breaking, category, tags);
             } catch (MalformedURLException e) {
                 Log.wtf(TAG, "Malformed URL in article build");
                 e.printStackTrace();
@@ -145,8 +161,7 @@ public class Article implements Headline {
                 } else if (name.equals("sticky")) {
                     setSticky(json.nextBoolean());
                 } else if (name.equals("categories")) {
-                    //todo
-                    json.skipValue();
+                    setCategory(json);
                 } else if (name.equals("tags")) {
                     //todo
                     json.skipValue();
@@ -193,7 +208,7 @@ public class Article implements Headline {
     }
 
 
-    private Article(String date, long id, String link, String title, String content, int author, String excerpt, int featured_media, boolean sticky, String[] categories, String[] tags) throws MalformedURLException {
+    private Article(String date, long id, String link, String title, String content, int author, String excerpt, int featured_media, boolean sticky, boolean breaking, Category category, String[] tags) throws MalformedURLException {
 
         mLoaded = false;
 
@@ -205,7 +220,8 @@ public class Article implements Headline {
         mSnippet = excerpt;
         mImage = featured_media;
         mSticky = sticky;
-        mCategories = categories;
+        mBreaking = breaking;
+        mCategory = category;
         mTags = tags;
 
 //        Log.e(TAG, String.valueOf(mImage));
@@ -244,12 +260,16 @@ public class Article implements Headline {
         return mSticky;
     }
 
+    public boolean isBreaking() {
+        return mBreaking;
+    }
+
     public String[] getTags() {
         return mTags;
     }
 
-    public String[] getCategories() {
-        return mCategories;
+    public Category getCategory() {
+        return mCategory;
     }
 
     public boolean isLoaded() {
