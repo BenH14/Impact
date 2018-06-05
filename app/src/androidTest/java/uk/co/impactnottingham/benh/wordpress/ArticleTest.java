@@ -62,8 +62,7 @@ public class ArticleTest {
 
         CountDownLatch cdl = new CountDownLatch(1);
 
-        mArticle.setLoadCallback(cdl::countDown);
-        mArticle.loadResources();
+        mArticle.loadImageLink(WordpressREST.IMAGE_SIZE_FULL);
 
         cdl.await(5, TimeUnit.SECONDS);
     }

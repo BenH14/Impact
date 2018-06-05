@@ -1,21 +1,13 @@
 package uk.co.impactnottingham.benh.impact;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-import uk.co.impactnottingham.benh.glide.GlideApp;
 import uk.co.impactnottingham.benh.wordpress.Article;
-import uk.co.impactnottingham.benh.wordpress.GetImageLinkTask;
-import uk.co.impactnottingham.benh.wordpress.WordpressREST;
 
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -23,8 +15,10 @@ import java.util.List;
  */
 public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
 
-    private static final String TAG         = "HeadlineAdapter";
-    private static final int    CARD_LAYOUT = R.layout.headline_list_row;
+    private static final String TAG                   = "HeadlineAdapter";
+    private static final int    CARD_LAYOUT           = R.layout.headline_list_row;
+    public static final int     HOLDER_TYPE_FEATURED  = 0x01;
+    public static final int     HOLDER_TYPE_LANDSCAPE = 0x02;
 
     private final List<Article> mArticles;
 
@@ -42,9 +36,6 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
         mArticles.clear();
     }
 
-
-    static int x = 0;
-
     @NonNull
     @Override
     public HeadlineHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,11 +43,18 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
 
         View v = inflater.inflate(CARD_LAYOUT, parent, false);
 
-        // return the inflated recycler
-        x++;
-        HeadlineHolder h = (x % 3 == 0) ? new HeadlineHolder.FeaturedHeadlineHolder(v, parent.getContext()) : new HeadlineHolder.LandscapeHeadlineHolder(v, parent.getContext());
-        h.setBreaking(true);
-        return h;
+        HeadlineHolder holder = null;
+
+        switch (viewType) {
+            case HOLDER_TYPE_LANDSCAPE:
+                holder = new HeadlineHolder.LandscapeHeadlineHolder(v, parent.getContext());
+                break;
+            case HOLDER_TYPE_FEATURED:
+                holder = new HeadlineHolder.FeaturedHeadlineHolder(v, parent.getContext());
+                break;
+        }
+
+        return holder;
     }
 
     @Override
@@ -69,4 +67,13 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
         return mArticles.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        Article article = mArticles.get(position);
+        if (position % 3 == 0) {
+            return HOLDER_TYPE_FEATURED;
+        } else {
+            return HOLDER_TYPE_LANDSCAPE;
+        }
+    }
 }
