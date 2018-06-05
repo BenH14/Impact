@@ -1,5 +1,6 @@
 package uk.co.impactnottingham.benh.impact;
 
+import android.support.annotation.Nullable;
 import uk.co.impactnottingham.benh.wordpress.Article;
 
 /**
@@ -12,6 +13,5 @@ public interface Headline {
 
     Article getArticle();
 
-    void loadResources();
-    void setLoadCallback(LoadCallback callback);
+    void loadImageLink(int imageSize, @Nullable LoadCallback callback);
 }

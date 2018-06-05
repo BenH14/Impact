@@ -1,6 +1,7 @@
 package uk.co.impactnottingham.benh.impact;
 
 import android.content.Context;
+import android.support.annotation.UiThread;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import uk.co.impactnottingham.benh.glide.GlideApp;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.GetImageLinkTask;
@@ -49,21 +52,33 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
     }
 
     void setArticle(Article article) {
+        GlideApp.with(itemView.getContext()).clear(mThumbnail);
+
         mTitle.setText(article.getTitle());
         mExcerpt.setText(article.getSnippet());
 
-        new GetImageLinkTask(mImageSize, (URL url) -> itemView.post(() ->
-                GlideApp.with(itemView.getContext())
-                        .asDrawable()
-                        .load(url.toString())
-                        .thumbnail(0.1f)
-                        .into((ImageView) itemView.findViewById(R.id.headline_image))
-        )).execute(article.getImageId());
+        if (article.getImageLink() != null) {
+            setImage(article.getImageLink());
+        } else {
+            article.loadImageLink(mImageSize, ()-> itemView.post(()-> setImage(article.getImageLink())));
+        }
+
+        setBreaking(article.isBreaking());
 
         mCard.setOnClickListener((View v) -> {
-            Toast.makeText(itemView.getContext(), "Card Clicked", Toast.LENGTH_LONG).show();
+            Toast.makeText(itemView.getContext(), "Card Clicked ID = " + article.getId(), Toast.LENGTH_LONG).show();
             //todo
         });
+    }
+
+    @UiThread
+    void setImage(URL url) {
+        GlideApp.with(itemView.getContext())
+                .asDrawable()
+                .load(url.toString())
+                .thumbnail(0.1f)
+                .transition(DrawableTransitionOptions.withCrossFade(100))
+                .into((ImageView) itemView.findViewById(R.id.headline_image));
     }
 
     void setBreaking(boolean breaking) {

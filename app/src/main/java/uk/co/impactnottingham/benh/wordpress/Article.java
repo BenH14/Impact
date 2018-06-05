@@ -1,21 +1,29 @@
 package uk.co.impactnottingham.benh.wordpress;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Html;
 import android.util.JsonReader;
 import android.util.Log;
+import android.widget.ImageView;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import uk.co.impactnottingham.benh.glide.GlideApp;
 import uk.co.impactnottingham.benh.impact.Category;
 import uk.co.impactnottingham.benh.impact.Headline;
 import uk.co.impactnottingham.benh.impact.LoadCallback;
+import uk.co.impactnottingham.benh.impact.R;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.concurrent.Future;
 
 /**
  * Created by benh14 on 12/18/17.
@@ -23,7 +31,8 @@ import java.util.Locale;
 public class Article implements Headline {
 
     private static final String TAG = Article.class.getName();
-    public static final int BREAKING_CATEGORY_ID = 19171;
+
+    private static final int BREAKING_CATEGORY_ID = 19171;
 
     private final long              mId;
     private final String            mTitle;
@@ -32,14 +41,14 @@ public class Article implements Headline {
     private final int               mAuthor;
     private final String            mContent;
     private final String            mSnippet;
-    private final int               mImage;
     private final boolean           mSticky;
     private final boolean           mBreaking;
     private final String[]          mTags;
     private final Category          mCategory;
 
-    private boolean      mLoaded;
-    private LoadCallback mLoadCallback;
+    private final int                     mImageId;
+    private       URL                     mImageLink;
+    private       WeakReference<Drawable> mImage;
 
     /**
      * All fields in this class are mandatory.
@@ -209,23 +218,17 @@ public class Article implements Headline {
 
 
     private Article(String date, long id, String link, String title, String content, int author, String excerpt, int featured_media, boolean sticky, boolean breaking, Category category, String[] tags) throws MalformedURLException {
-
-        mLoaded = false;
-
         mId = id;
         mLink = new URL(link);
         mTitle = title;
         mContent = content;
         mAuthor = author;
         mSnippet = excerpt;
-        mImage = featured_media;
+        mImageId = featured_media;
         mSticky = sticky;
         mBreaking = breaking;
         mCategory = category;
         mTags = tags;
-
-//        Log.e(TAG, String.valueOf(mImage));
-
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.UK);
         mDate = new GregorianCalendar();
@@ -272,11 +275,6 @@ public class Article implements Headline {
         return mCategory;
     }
 
-    public boolean isLoaded() {
-        return mLoaded;
-    }
-
-
     @Override
     public String getTitle() {
         return mTitle;
@@ -289,7 +287,7 @@ public class Article implements Headline {
 
     @Override
     public int getImageId() {
-        return mImage;
+        return mImageId;
     }
 
     @Override
@@ -297,22 +295,22 @@ public class Article implements Headline {
         return this;
     }
 
-    @Override
-    public void loadResources() {
-        //todo load images etc
-        if (mLoadCallback == null) {
-            throw new IllegalStateException("Tried to call load before load callback has been set");
-        } else if (mLoadCallback.getTriggered()) {
-            throw new IllegalStateException("Load callback has already been triggered, you are trying to load the article twice");
-        }
-
-
-        mLoaded = true;
-        mLoadCallback.onLoad();
+    public URL getImageLink() {
+        return mImageLink;
     }
 
     @Override
-    public void setLoadCallback(LoadCallback callback) {
-        mLoadCallback = callback;
+    public void loadImageLink(int imageSize, @Nullable LoadCallback callback) {
+        new GetImageLinkTask(imageSize, (URL url) -> {
+            this.mImageLink = url;
+
+            if (callback != null) {
+                callback.onLoad();
+            }
+        }).execute(getImageId());
+    }
+
+    public void loadImageLink(int imageSize) {
+        loadImageLink(imageSize, null);
     }
 }
