@@ -70,7 +70,7 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
     @Override
     public int getItemViewType(int position) {
         Article article = mArticles.get(position);
-        if (position % 3 == 0) {
+        if (article.isBreaking()) {
             return HOLDER_TYPE_FEATURED;
         } else {
             return HOLDER_TYPE_LANDSCAPE;
