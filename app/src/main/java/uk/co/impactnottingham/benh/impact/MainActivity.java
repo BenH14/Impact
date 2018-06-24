@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_headlines);
         mDrawer = findViewById(R.id.drawer_layout);
 
-        mAdapter = new HeadlineAdapter(new ArrayList<>());
+        mAdapter = new HeadlineAdapter(new ArrayList<>(), getSupportFragmentManager());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);

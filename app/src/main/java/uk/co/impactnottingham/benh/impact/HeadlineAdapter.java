@@ -1,5 +1,6 @@
 package uk.co.impactnottingham.benh.impact;
 
+import android.support.v4.app.FragmentManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,10 +21,12 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
     public static final int     HOLDER_TYPE_FEATURED  = 0x01;
     public static final int     HOLDER_TYPE_LANDSCAPE = 0x02;
 
-    private final List<Article> mArticles;
+    private final List<Article>   mArticles;
+    private final FragmentManager mFragmentManager;
 
-    public HeadlineAdapter(@NonNull List<Article> initialDataSet) {
+    public HeadlineAdapter(@NonNull List<Article> initialDataSet, FragmentManager fragmentManager) {
         mArticles = initialDataSet;
+        mFragmentManager = fragmentManager;
     }
 
     public void add(@NonNull Article article) {
@@ -47,12 +50,13 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
 
         switch (viewType) {
             case HOLDER_TYPE_LANDSCAPE:
-                holder = new HeadlineHolder.LandscapeHeadlineHolder(v, parent.getContext());
+                holder = new HeadlineHolder.LandscapeHeadlineHolder(v, parent.getContext(), mFragmentManager);
                 break;
             case HOLDER_TYPE_FEATURED:
-                holder = new HeadlineHolder.FeaturedHeadlineHolder(v, parent.getContext());
+                holder = new HeadlineHolder.FeaturedHeadlineHolder(v, parent.getContext(), mFragmentManager);
                 break;
         }
+
 
         return holder;
     }

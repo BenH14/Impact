@@ -2,19 +2,21 @@ package uk.co.impactnottingham.benh.impact;
 
 import android.content.Context;
 import android.support.annotation.UiThread;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import uk.co.impactnottingham.benh.glide.GlideApp;
 import uk.co.impactnottingham.benh.wordpress.Article;
-import uk.co.impactnottingham.benh.wordpress.GetImageLinkTask;
 import uk.co.impactnottingham.benh.wordpress.WordpressREST;
 
 import java.net.URL;
@@ -37,12 +39,15 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
 
     protected int mImageSize;
 
-    HeadlineHolder(View itemView, Context context) {
+    private FragmentManager fm;
+
+    HeadlineHolder(View itemView, Context context, FragmentManager fragmentManager) {
         super(itemView);
+
+        fm = fragmentManager;
 
         mContext = context;
         DISPLAY_DENSITY = mContext.getResources().getDisplayMetrics().density;
-
 
         mThumbnail = itemView.findViewById(R.id.headline_image);
         mTitle = itemView.findViewById(R.id.headline_title);
@@ -57,17 +62,26 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         mTitle.setText(article.getTitle());
         mExcerpt.setText(article.getSnippet());
 
-        if (article.getImageLink() != null) {
+        if (article.hasLink()) {
             setImage(article.getImageLink());
         } else {
-            article.loadImageLink(mImageSize, ()-> itemView.post(()-> setImage(article.getImageLink())));
+            article.loadImageLink(mImageSize, () -> {
+                if (article.getImageLink() != null) {
+                    itemView.post(() -> setImage(article.getImageLink()));
+                } else {
+                    itemView.post(() -> GlideApp.with(itemView.getContext()).clear(mThumbnail));
+                }
+                Log.d(TAG, "setArticle: TITLE = " + article.getTitle());
+                Log.d(TAG, "setArticle: IMG = " + article.getImageLink());
+
+            });
         }
 
         setBreaking(article.isBreaking());
 
         mCard.setOnClickListener((View v) -> {
             Toast.makeText(itemView.getContext(), "Card Clicked ID = " + article.getId(), Toast.LENGTH_LONG).show();
-            //todo
+            gotoArticle(article);
         });
     }
 
@@ -91,18 +105,27 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         }
     }
 
+    void gotoArticle(Article article) {
+        Fragment newFragment = new ArticleFragment();
+        ((ArticleFragment) newFragment).setData(article);
+
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.activity_main_content, newFragment);
+        ft.commit();
+    }
+
     static class LandscapeHeadlineHolder extends HeadlineHolder {
 
-        LandscapeHeadlineHolder(View itemView, Context context) {
-            super(itemView, context);
+        LandscapeHeadlineHolder(View itemView, Context context, FragmentManager fragmentManager) {
+            super(itemView, context, fragmentManager);
             mImageSize = WordpressREST.IMAGE_SIZE_THUMBNAIL;
         }
     }
 
     static class FeaturedHeadlineHolder extends HeadlineHolder {
 
-        FeaturedHeadlineHolder(View itemView, Context context) {
-            super(itemView, context);
+        FeaturedHeadlineHolder(View itemView, Context context, FragmentManager fragmentManager) {
+            super(itemView, context, fragmentManager);
             mImageSize = WordpressREST.IMAGE_SIZE_MEDIUM;
 
             mCard.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
