@@ -1,7 +1,6 @@
 package uk.co.impactnottingham.benh.impact;
 
 import android.os.Bundle;
-import android.support.annotation.UiThread;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -11,12 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.*;
-import uk.co.impactnottingham.benh.glide.GlideApp;
-import uk.co.impactnottingham.benh.wordpress.*;
+import uk.co.impactnottingham.benh.wordpress.Article;
+import uk.co.impactnottingham.benh.wordpress.GetArticlesTask;
+import uk.co.impactnottingham.benh.wordpress.RequestParameters;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -66,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 if (dy > 0) {  // Only look if we're scrolling down
                     int itemCount       = layoutManager.getItemCount();
                     int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-
-//                    Log.d(TAG, "onScrolled: itemCount = " + itemCount + "     last visible = " + lastVisibleItem);
 
                     if (itemCount - SCROLL_LOAD_OFFSET <= lastVisibleItem) {
                         loadArticles();
