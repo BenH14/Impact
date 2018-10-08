@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FEFE00</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#303030</color>
+    <color name="colorAccent">#FEAE00</color>
 
 
     <!-- Category Colors -->
@@ -25,6 +25,6 @@
     <color name="colorSport">#8BC34A</color>
     <color name="colorSportLight">#AED581</color>
 
-    <color name="colorBreaking">#FFb71c1c</color>
+    <color name="colorBreaking">#FFB71C1C</color>
 
 </resources>

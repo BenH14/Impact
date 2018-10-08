@@ -1,6 +1,7 @@
 package uk.co.impactnottingham.benh.impact;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -106,12 +107,16 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
     }
 
     void gotoArticle(Article article) {
-        Fragment newFragment = new ArticleFragment();
-        ((ArticleFragment) newFragment).setData(article);
+//        Fragment newFragment = new ArticleFragment();
+//        ((ArticleFragment) newFragment).setData(article);
+//
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.replace(R.id.drawer_layout, newFragment);
+//        ft.commit();
 
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.activity_main_content, newFragment);
-        ft.commit();
+        Intent intent = new Intent(mContext, ArticleActivity.class);
+        intent.putExtra("ARTICLE", article);
+        mContext.startActivity(intent);
     }
 
     static class LandscapeHeadlineHolder extends HeadlineHolder {

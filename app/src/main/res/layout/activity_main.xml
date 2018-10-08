@@ -52,5 +52,6 @@
         android:fitsSystemWindows="true"
         android:layout_gravity="left"
 
-        app:menu="@menu/drawer_view" />
+        app:menu="@menu/drawer_view"
+        app:headerLayout="@layout/print_issue_countdown"/>
 </android.support.v4.widget.DrawerLayout>

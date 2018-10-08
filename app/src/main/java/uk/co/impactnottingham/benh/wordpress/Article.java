@@ -16,6 +16,7 @@ import uk.co.impactnottingham.benh.impact.LoadCallback;
 import uk.co.impactnottingham.benh.impact.R;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,11 +25,12 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.concurrent.Future;
+import java.util.function.Function;
 
 /**
  * Created by benh14 on 12/18/17.
  */
-public class Article implements Headline {
+public class Article implements Headline, Serializable {
 
     private static final String TAG = Article.class.getName();
 
@@ -297,6 +299,13 @@ public class Article implements Headline {
 
     public URL getImageLink() {
         return mImageLink;
+    }
+
+    public boolean hasLink() {
+        if (getImageLink() == null) {
+            return false;
+        }
+        return getImageLink().toString().length() > 0;
     }
 
     @Override
