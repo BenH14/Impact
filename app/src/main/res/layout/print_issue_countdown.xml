@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/print_countdown_view"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -36,7 +38,7 @@
         />
     
     <LinearLayout
-        android:id="@+id/countdown_view"
+        android:id="@+id/countdown_time_view"
 
         android:gravity="center"
 

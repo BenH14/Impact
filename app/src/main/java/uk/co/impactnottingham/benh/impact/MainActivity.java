@@ -1,6 +1,10 @@
 package uk.co.impactnottingham.benh.impact;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.GetArticlesTask;
 import uk.co.impactnottingham.benh.wordpress.RequestParameters;
@@ -20,9 +26,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG                      = "MainActivity";
-    private static final int    ARTICLES_PER_REQUEST     = 10;
-    private static final int    SCROLL_LOAD_OFFSET       = 3;
+    private static final String TAG                  = "MainActivity";
+    private static final int    ARTICLES_PER_REQUEST = 10;
+    private static final int    SCROLL_LOAD_OFFSET   = 3;
 
     private final List<Article> articles;
 
@@ -50,6 +56,35 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_headlines);
         mDrawer = findViewById(R.id.drawer_layout);
 
+        //Set on click listeners for the navigation drawer
+        NavigationView navView = findViewById(R.id.nav_view);
+        navView.setCheckedItem(R.id.nav_home);
+        navView.setNavigationItemSelectedListener(item -> {
+            item.setChecked(true);
+            switch(item.getItemId()) {
+                case R.id.nav_home:
+                    break;
+                case R.id.nav_news:
+                    break;
+                case R.id.nav_features:
+                    break;
+                case R.id.nav_lifestyle:
+                    break;
+                case R.id.nav_entertainment:
+                    break;
+                case R.id.nav_reviews:
+                    break;
+                case R.id.nav_sport:
+                    break;
+                case R.id.nav_get_involved:
+                    break;
+                    default:
+                        Log.w(TAG, "onCreate: Weird item selected in navview, probably haven't created switch case");
+            }
+            mDrawer.closeDrawers();
+            return true;
+        });
+
         mAdapter = new HeadlineAdapter(new ArrayList<>(), getSupportFragmentManager());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -75,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mainToolbar);
 
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_24dp);
 

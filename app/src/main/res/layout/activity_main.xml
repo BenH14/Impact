@@ -24,11 +24,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/colorPrimary"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:background="@drawable/actionbar_bg"
+            android:textAlignment="center"
+            android:elevation="16dp"
+            android:theme="@style/ToolbarTheme"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            tools:targetApi="lollipop" />
+            tools:targetApi="lollipop">
+            <TextView
+                android:layout_width="@dimen/toolbar_text_box_width"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="34sp"
+                android:fontFamily="@font/fredoka_one"
+                android:text="@string/impact_caps"/>
+        </android.support.v7.widget.Toolbar>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_headlines"

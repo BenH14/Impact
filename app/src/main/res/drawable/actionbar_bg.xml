@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:gravity="center">
+        <shape
+            android:shape="rectangle">
+            <corners
+                android:bottomLeftRadius="@dimen/actionbar_corner_rounding"
+                android:bottomRightRadius="@dimen/actionbar_corner_rounding"/>
+            <solid
+                android:color="@color/colorPrimary"/>
+            <size
+                android:width="@dimen/toolbar_text_box_width"
+                android:height="56dp"/>
+            <stroke android:color="@color/colorPrimaryDark"
+                android:width="6dp"/>
+
+        </shape>
+    </item>
+
+    <item
+        android:gravity="top">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorAccent"/>
+            <size android:height="6dp"
+                android:width="360dp"/>
+
+
+        </shape>
+    </item>
+
+</layer-list>
+

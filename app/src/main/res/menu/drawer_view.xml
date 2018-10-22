@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
+
+
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_selector_24dp"
-            android:title="Home" />
+            android:id="@+id/categories_subheading"
+            android:title="Categories">
+            <menu>
+                <item
+                    android:id="@+id/nav_home"
+                    android:title="Home" />
+                <item
+                    android:id="@+id/nav_news"
+                    android:icon="@drawable/ic_selector_24dp"
+                    android:title="News" />
+                <item
+                    android:id="@+id/nav_features"
+                    android:icon="@drawable/ic_selector_24dp"
+                    android:title="Features" />
+                <item
+                    android:id="@+id/nav_lifestyle"
+                    android:icon="@drawable/ic_selector_24dp"
+                    android:title="Lifestyle" />
+                <item
+                    android:id="@+id/nav_entertainment"
+                    android:icon="@drawable/ic_selector_24dp"
+                    android:title="Entertainment" />
+                <item
+                    android:id="@+id/nav_reviews"
+                    android:icon="@drawable/ic_selector_24dp"
+                    android:title="Reviews" />
+                <item
+                    android:id="@+id/nav_sport"
+                    android:icon="@drawable/ic_selector_24dp"
+                    android:title="Sport" />
+            </menu>
+        </item>
+
         <item
-            android:id="@+id/nav_news"
-            android:icon="@drawable/ic_selector_24dp"
-            android:title="News" />
-        <item
-            android:id="@+id/nav_features"
-            android:icon="@drawable/ic_selector_24dp"
-            android:title="Features" />
-        <item
-            android:id="@+id/nav_lifestyle"
-            android:icon="@drawable/ic_selector_24dp"
-            android:title="Lifestyle" />
-        <item
-            android:id="@+id/nav_entertainment"
-            android:icon="@drawable/ic_selector_24dp"
-            android:title="Entertainment" />
-        <item
-            android:id="@+id/nav_reviews"
-            android:icon="@drawable/ic_selector_24dp"
-            android:title="Reviews" />
-        <item
-            android:id="@+id/nav_sport"
-            android:icon="@drawable/ic_selector_24dp"
-            android:title="Sport" />
+            android:id="@+id/nav_get_involved"
+            android:title="Get Involved" />
     </group>
 </menu>

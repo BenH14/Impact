@@ -6,4 +6,6 @@
     <dimen name="standard_elevation">8dp</dimen>
     <dimen name="h4">34sp</dimen>
     <dimen name="h5">24sp</dimen>
+    <dimen name="actionbar_corner_rounding">8dp</dimen>
+    <dimen name="toolbar_text_box_width">196dp</dimen>
 </resources>
