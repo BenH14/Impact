@@ -1,8 +1,11 @@
 package uk.co.impactnottingham.benh.impact;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +16,7 @@ import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.WordpressREST;
 
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 public class ArticleActivity extends AppCompatActivity {
 
@@ -25,15 +29,19 @@ public class ArticleActivity extends AppCompatActivity {
     private Article mArticle;
 
     @BindView(R.id.article_image)
-    ImageView mImage;
+    ImageView               mImage;
     @BindView(R.id.article_date)
-    TextView  mDate;
+    TextView                mDate;
+    @BindView(R.id.article_category)
+    TextView                mCategory;
     @BindView(R.id.article_headline)
-    TextView  mTitle;
+    TextView                mTitle;
     @BindView(R.id.article_html)
-    WebView   mContent;
+    WebView                 mContent;
     @BindView(R.id.article_toolbar)
-    Toolbar   mToolbar;
+    Toolbar                 mToolbar;
+    @BindView(R.id.article_collapsing_toolbar)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     public void setData(Article data) {
         mArticle = data;
@@ -47,9 +55,17 @@ public class ArticleActivity extends AppCompatActivity {
 
         setData((Article) getIntent().getSerializableExtra("ARTICLE"));
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         mTitle.setText(mArticle.getTitle());
         mDate.setText(getTimeFromNow(mArticle.getDate()));
+
+        mCategory.setText(mArticle.getCategory().name());
+        mCategory.setTextColor(mArticle.getCategory().getColor(this));
+//        mCollapsingToolbarLayout.setTitle(mArticle.getCategory().name());
+        mCollapsingToolbarLayout.setTitle(" ");
+        mCollapsingToolbarLayout.setContentScrimColor(mArticle.getCategory().getColorLight(this));
 
         mArticle.loadImageLink(WordpressREST.IMAGE_SIZE_MEDIUM, () -> runOnUiThread(() -> GlideApp.with(this).load(mArticle.getImageLink().toString()).into(mImage)));
         mContent.loadData(mArticle.getContent(), "text/html", null);
@@ -86,6 +102,23 @@ public class ArticleActivity extends AppCompatActivity {
         timeFromNow /= DAYS_IN_MONTH;  // Roughly months
         return timeFromNow + "months";
     }
+
+
+    /**
+     * Handle the back button presses
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }
 
