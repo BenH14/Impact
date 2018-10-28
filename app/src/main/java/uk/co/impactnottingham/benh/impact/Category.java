@@ -35,4 +35,8 @@ public enum Category {
     public int getColorLight(Context context) {
         return context.getResources().getColor(mColorLight);
     }
+
+    public String getCapitalizedName() {
+        return name().substring(0,1).toUpperCase() + name().substring(1).toLowerCase();
+    }
 }
