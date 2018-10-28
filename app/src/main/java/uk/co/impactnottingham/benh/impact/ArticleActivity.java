@@ -25,12 +25,6 @@ import java.util.Objects;
 
 public class ArticleActivity extends AppCompatActivity {
 
-    private static final int SECONDS_IN_MINUTE = 60;
-    private static final int MS_IN_SECOND      = 1000;
-    private static final int MINUTES_IN_HOUR   = 60;
-    private static final int HOURS_IN_DAY      = 24;
-    private static final int DAYS_IN_MONTH     = 30;
-
     private Article mArticle;
 
     @BindView(R.id.article_image)
@@ -71,7 +65,7 @@ public class ArticleActivity extends AppCompatActivity {
 
         //Sort the headline and date
         mTitle.setText(mArticle.getTitle());
-        mDate.setText(getTimeFromNow(mArticle.getDate()));
+        mDate.setText(mArticle.getTimeFromNow(mArticle.getDate()));
 
         //Sort out the category
         mCategory.setText(mArticle.getCategory().name());
@@ -107,38 +101,6 @@ public class ArticleActivity extends AppCompatActivity {
             shareIntent.putExtra(Intent.EXTRA_TEXT, text);
             startActivity(Intent.createChooser(shareIntent, "Share Via"));
         });
-    }
-
-    /**
-     * Generates a string of how long ago this article was published, eg 5 mins
-     *
-     * @return a string of how many minutes, hours, days or months ago this was published
-     */
-    private String getTimeFromNow(GregorianCalendar date) {
-        long timeFromNow = System.currentTimeMillis() - date.getTimeInMillis();
-
-        timeFromNow /= MS_IN_SECOND;  // Into Seconds
-        if (timeFromNow < SECONDS_IN_MINUTE) {
-            return "just now";
-        }
-
-        timeFromNow /= SECONDS_IN_MINUTE;  // Into Minutes
-        if (timeFromNow < MINUTES_IN_HOUR) {
-            return timeFromNow + " minutes";
-        }
-
-        timeFromNow /= MINUTES_IN_HOUR;  // Into Hours
-        if (timeFromNow < HOURS_IN_DAY) {
-            return timeFromNow + " hours";
-        }
-
-        timeFromNow /= HOURS_IN_DAY;  // Into days
-        if (timeFromNow < DAYS_IN_MONTH) {
-            return timeFromNow + " days";
-        }
-
-        timeFromNow /= DAYS_IN_MONTH;  // Roughly months
-        return timeFromNow + "months";
     }
 
 

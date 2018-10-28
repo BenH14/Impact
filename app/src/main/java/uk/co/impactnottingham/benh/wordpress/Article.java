@@ -32,6 +32,12 @@ import java.util.function.Function;
  */
 public class Article implements Headline, Serializable {
 
+    private static final int SECONDS_IN_MINUTE = 60;
+    private static final int MS_IN_SECOND      = 1000;
+    private static final int MINUTES_IN_HOUR   = 60;
+    private static final int HOURS_IN_DAY      = 24;
+    private static final int DAYS_IN_MONTH     = 30;
+
     private static final String TAG = Article.class.getName();
 
     private static final int BREAKING_CATEGORY_ID = 19171;
@@ -239,6 +245,38 @@ public class Article implements Headline, Serializable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Generates a string of how long ago this article was published, eg 5 mins
+     *
+     * @return a string of how many minutes, hours, days or months ago this was published
+     */
+    public String getTimeFromNow(GregorianCalendar date) {
+        long timeFromNow = System.currentTimeMillis() - date.getTimeInMillis();
+
+        timeFromNow /= MS_IN_SECOND;  // Into Seconds
+        if (timeFromNow < SECONDS_IN_MINUTE) {
+            return "just now";
+        }
+
+        timeFromNow /= SECONDS_IN_MINUTE;  // Into Minutes
+        if (timeFromNow < MINUTES_IN_HOUR) {
+            return timeFromNow + (timeFromNow == 1 ? " minute" : " minutes");
+        }
+
+        timeFromNow /= MINUTES_IN_HOUR;  // Into Hours
+        if (timeFromNow < HOURS_IN_DAY) {
+            return timeFromNow + (timeFromNow == 1 ? " hour" : " hours");
+        }
+
+        timeFromNow /= HOURS_IN_DAY;  // Into days
+        if (timeFromNow < DAYS_IN_MONTH) {
+            return timeFromNow + (timeFromNow == 1 ? " day" : " days");
+        }
+
+        timeFromNow /= DAYS_IN_MONTH;  // Roughly months
+        return timeFromNow + (timeFromNow == 1 ? " month" : " months");
     }
 
     public long getId() {
