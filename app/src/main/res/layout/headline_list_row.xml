@@ -42,7 +42,7 @@
             android:id="@+id/headline_title"
 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="72dp"
 
             android:layout_toEndOf="@id/headline_image"
 
@@ -50,7 +50,7 @@
             android:layout_marginEnd="8dp"
 
             android:text="PLACEHOLDER HEADLINE"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="@font/fredoka_one"/>
 
         <LinearLayout

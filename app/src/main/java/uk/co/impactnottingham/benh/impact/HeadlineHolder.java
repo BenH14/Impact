@@ -36,7 +36,8 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
 
     protected final ImageView mThumbnail;
     protected final TextView  mTitle;
-    protected final TextView mCategory;
+    protected final TextView  mCategory;
+    protected final TextView  mDate;
     protected final CardView  mCard;
     protected final TextView  mBreakingLabel;
 
@@ -52,6 +53,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         mThumbnail = itemView.findViewById(R.id.headline_image);
         mTitle = itemView.findViewById(R.id.headline_title);
         mCategory = itemView.findViewById(R.id.headline_category);
+        mDate  = itemView.findViewById(R.id.headline_date);
         mCard = itemView.findViewById(R.id.headline_card_view);
         mBreakingLabel = itemView.findViewById(R.id.breaking_label);
 
@@ -70,6 +72,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
             Log.w(TAG, "setArticle: No Category?", ex);
             mCategory.setText(" ");
         }
+        mDate.setText(article.getTimeFromNow());
 
         if (article.hasLink()) {
             setImage(article.getImageLink());

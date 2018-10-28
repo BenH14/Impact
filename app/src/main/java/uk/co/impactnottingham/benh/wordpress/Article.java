@@ -279,6 +279,10 @@ public class Article implements Headline, Serializable {
         return timeFromNow + (timeFromNow == 1 ? " month" : " months");
     }
 
+    public String getTimeFromNow() {
+        return getTimeFromNow(getDate());
+    }
+
     public long getId() {
         return mId;
     }
