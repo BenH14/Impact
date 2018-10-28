@@ -81,7 +81,6 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         setBreaking(article.isBreaking());
 
         mCard.setOnClickListener((View v) -> {
-            Toast.makeText(itemView.getContext(), "Card Clicked ID = " + article.getId(), Toast.LENGTH_LONG).show();
             gotoArticle(article);
         });
     }
@@ -107,13 +106,6 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
     }
 
     void gotoArticle(Article article) {
-//        Fragment newFragment = new ArticleFragment();
-//        ((ArticleFragment) newFragment).setData(article);
-//
-//        FragmentTransaction ft = fm.beginTransaction();
-//        ft.replace(R.id.drawer_layout, newFragment);
-//        ft.commit();
-
         Intent intent = new Intent(mContext, ArticleActivity.class);
         intent.putExtra("ARTICLE", article);
         mContext.startActivity(intent);
