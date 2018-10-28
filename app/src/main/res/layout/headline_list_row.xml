@@ -50,30 +50,43 @@
             android:layout_marginEnd="8dp"
 
             android:text="PLACEHOLDER HEADLINE"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:fontFamily="@font/fredoka_one"/>
 
-        <TextView
-            android:id="@+id/headline_excerpt"
-
+        <LinearLayout
+            android:id="@+id/headline_date_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="24dp"
+            android:orientation="horizontal"
+            android:layout_toRightOf="@id/headline_image"
+            android:layout_alignParentBottom="true">
 
-            android:layout_toEndOf="@id/headline_image"
-            android:layout_below="@id/headline_title"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            <ImageView
+                android:id="@+id/headline_time_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_timelapse_black_24dp" />
 
+            <TextView
+                android:id="@+id/headline_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/fredoka_one"
+                android:text="DATE"/>
 
-            android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            android:textSize="14sp"
-
-            android:visibility="visible"
-
-            android:ellipsize="end"
-
-            />
+            <TextView
+                android:id="@+id/headline_category"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:fontFamily="@font/fredoka_one"
+                android:layout_marginEnd="4dp"
+                android:text="CATEGORY" />
+        </LinearLayout>
+        
 
         <ProgressBar
             android:id="@+id/headline_progressbar"

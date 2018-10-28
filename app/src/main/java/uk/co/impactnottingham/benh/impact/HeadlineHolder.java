@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import uk.co.impactnottingham.benh.glide.GlideApp;
 import uk.co.impactnottingham.benh.wordpress.Article;
@@ -34,7 +36,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
 
     protected final ImageView mThumbnail;
     protected final TextView  mTitle;
-    protected final TextView  mExcerpt;
+    protected final TextView mCategory;
     protected final CardView  mCard;
     protected final TextView  mBreakingLabel;
 
@@ -47,21 +49,27 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
 
         fm = fragmentManager;
 
-        mContext = context;
-        DISPLAY_DENSITY = mContext.getResources().getDisplayMetrics().density;
-
         mThumbnail = itemView.findViewById(R.id.headline_image);
         mTitle = itemView.findViewById(R.id.headline_title);
-        mExcerpt = itemView.findViewById(R.id.headline_excerpt);
+        mCategory = itemView.findViewById(R.id.headline_category);
         mCard = itemView.findViewById(R.id.headline_card_view);
         mBreakingLabel = itemView.findViewById(R.id.breaking_label);
+
+        mContext = context;
+        DISPLAY_DENSITY = mContext.getResources().getDisplayMetrics().density;
     }
 
     void setArticle(Article article) {
         GlideApp.with(itemView.getContext()).clear(mThumbnail);
 
         mTitle.setText(article.getTitle());
-        mExcerpt.setText(article.getSnippet());
+        try {
+            mCategory.setTextColor(article.getCategory().getColor(itemView.getContext()));
+            mCategory.setText(article.getCategory().name());
+        } catch (NullPointerException ex) {
+            Log.w(TAG, "setArticle: No Category?", ex);
+            mCategory.setText(" ");
+        }
 
         if (article.hasLink()) {
             setImage(article.getImageLink());
@@ -72,9 +80,6 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
                 } else {
                     itemView.post(() -> GlideApp.with(itemView.getContext()).clear(mThumbnail));
                 }
-                Log.d(TAG, "setArticle: TITLE = " + article.getTitle());
-                Log.d(TAG, "setArticle: IMG = " + article.getImageLink());
-
             });
         }
 
@@ -138,10 +143,10 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
             titleParams.addRule(RelativeLayout.BELOW, R.id.headline_image);
 
 
-            RelativeLayout.LayoutParams excerptParams = (RelativeLayout.LayoutParams) (mExcerpt.getLayoutParams());
+//            RelativeLayout.LayoutParams excerptParams = (RelativeLayout.LayoutParams) (mExcerpt.getLayoutParams());
 
-            excerptParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
-            excerptParams.addRule(RelativeLayout.BELOW, R.id.headline_title);
+//            excerptParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
+//            excerptParams.addRule(RelativeLayout.BELOW, R.id.headline_title);
 
 
         }
