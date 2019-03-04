@@ -7,23 +7,23 @@
 
     <!-- Category Colors -->
     <!-- TODO WIP -->
-    <color name="colorNews">#F44336</color>
-    <color name="colorNewsLight">#E57373</color>
+    <color name="colorNews">#FFF44336</color>
+    <color name="colorNewsLight">#FFE57373</color>
 
-    <color name="colorFeatures">#2196F3</color>
-    <color name="colorFeaturesLight">#64B5F6</color>
+    <color name="colorFeatures">#FF2196F3</color>
+    <color name="colorFeaturesLight">#FF64B5F6</color>
 
-    <color name="colorLifestyle">#673AB7</color>
-    <color name="colorLifestyleLight">#9575CD</color>
+    <color name="colorLifestyle">#FF673AB7</color>
+    <color name="colorLifestyleLight">#FF9575CD</color>
 
-    <color name="colorEntertainment">#FF9800</color>
-    <color name="colorEntertainmentLight">#FFB74D</color>\
+    <color name="colorEntertainment">#FFFF9800</color>
+    <color name="colorEntertainmentLight">#FFFFB74D</color>\
 
-    <color name="colorReviews">#607D8B</color>
-    <color name="colorReviewsLight">#90A4AE</color>
+    <color name="colorReviews">#FF607D8B</color>
+    <color name="colorReviewsLight">#FF90A4AE</color>
 
-    <color name="colorSport">#8BC34A</color>
-    <color name="colorSportLight">#AED581</color>
+    <color name="colorSport">#FF8BC34A</color>
+    <color name="colorSportLight">#FFAED581</color>
 
     <color name="colorBreaking">#FFB71C1C</color>
 

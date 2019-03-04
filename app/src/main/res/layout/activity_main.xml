@@ -19,6 +19,7 @@
         android:layout_height="match_parent"
         tools:context="uk.co.impactnottingham.benh.impact.MainActivity">
 
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_main"
             android:layout_width="match_parent"
@@ -41,17 +42,31 @@
                 android:text="@string/impact_caps"/>
         </android.support.v7.widget.Toolbar>
 
+        <ProgressBar
+            android:id="@+id/background_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyle"
+
+            android:layout_centerInParent="true"
+            />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_headlines"
 
-            android:background="@color/cardview_light_background"
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
             android:layout_below="@id/toolbar_main"
 
+            android:paddingBottom="50dp"
+            android:clipToPadding="false"
+
+            android:visibility="visible"
+
             android:scrollbars="vertical" />
+
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView

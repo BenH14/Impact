@@ -22,7 +22,7 @@
     <item
         android:gravity="top">
         <shape android:shape="rectangle">
-            <solid android:color="@color/colorAccent"/>
+            <solid android:color="@color/colorPrimaryDark"/>
             <size android:height="6dp"
                 android:width="360dp"/>
 

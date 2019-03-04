@@ -1,6 +1,9 @@
 package uk.co.impactnottingham.benh.impact;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +19,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.GetArticlesTask;
 import uk.co.impactnottingham.benh.wordpress.RequestParameters;
@@ -40,11 +44,27 @@ public class MainActivity extends AppCompatActivity {
     private AtomicReference<Boolean> loading;
 
     private HeadlineAdapter mAdapter;
+    private Category mCategory;
+    private ProgressBar mSpinner;
 
     public MainActivity() {
         mPage = 1;
         articles = new ArrayList<>();
         loading = new AtomicReference<>(false);
+    }
+
+    private void changeCategory(Category category) {
+        mCategory = category;
+        mPage = 1;
+        Drawable actionbar = getDrawable(R.drawable.actionbar_bg);
+        if (mCategory == Category.DEFAULT) {
+            actionbar.clearColorFilter();
+        } else {
+            actionbar.setColorFilter(new PorterDuffColorFilter(mCategory.getColor(this), PorterDuff.Mode.SRC_ATOP));
+        }
+        getSupportActionBar().setBackgroundDrawable(actionbar);
+        clearArticles();
+        loadArticles();
     }
 
 
@@ -55,31 +75,41 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recycler_headlines);
         mDrawer = findViewById(R.id.drawer_layout);
+        mSpinner = findViewById(R.id.background_spinner);
+
+        mCategory = Category.DEFAULT;
 
         //Set on click listeners for the navigation drawer
         NavigationView navView = findViewById(R.id.nav_view);
         navView.setCheckedItem(R.id.nav_home);
         navView.setNavigationItemSelectedListener(item -> {
-            item.setChecked(true);
-            switch(item.getItemId()) {
+            switch (item.getItemId()) {
                 case R.id.nav_home:
+                    changeCategory(Category.DEFAULT);
                     break;
                 case R.id.nav_news:
+                    changeCategory(Category.NEWS);
                     break;
                 case R.id.nav_features:
+                    changeCategory(Category.FEATURES);
                     break;
                 case R.id.nav_lifestyle:
+                    changeCategory(Category.LIFESTYLE);
                     break;
                 case R.id.nav_entertainment:
+                    changeCategory(Category.ENTERTAINMENT);
                     break;
                 case R.id.nav_reviews:
+                    changeCategory(Category.REVIEWS);
                     break;
                 case R.id.nav_sport:
+                    changeCategory(Category.SPORT);
                     break;
                 case R.id.nav_get_involved:
+                    //TODO
                     break;
-                    default:
-                        Log.w(TAG, "onCreate: Weird item selected in navview, probably haven't created switch case");
+                default:
+                    Log.w(TAG, "onCreate: Weird item selected in navview, probably haven't created switch case");
             }
             mDrawer.closeDrawers();
             return true;
@@ -128,20 +158,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadArticles() {
+        RequestParameters parameters = new RequestParameters();
+        if (mCategory != Category.DEFAULT) {
+            parameters.addParameter("categories", String.valueOf(mCategory.getId()));
+            Log.i(TAG, "loadArticles: category = " + mCategory.getId());
+        }
+        loadArticles(parameters);
+    }
+
+    private void loadArticles(RequestParameters parameters) {
         if (!loading.getAndSet(true)) {
             Log.d(TAG, "loadArticles: Loading new Articles");
-            RequestParameters params = new RequestParameters();
-            params.addParameter("page", String.valueOf(mPage));
-            params.addParameter("per_page", String.valueOf(ARTICLES_PER_REQUEST));
+            parameters.addParameter("page", String.valueOf(mPage));
+            parameters.addParameter("per_page", String.valueOf(ARTICLES_PER_REQUEST));
 
-            new GetArticlesTask(this::onArticlesLoad).execute(params);
+            new GetArticlesTask(this::onArticlesLoad).execute(parameters);
             mPage++;
         }
+    }
+
+    private void clearArticles() {
+        articles.clear();
+        runOnUiThread(() -> mAdapter.clear());
+        mSpinner.setVisibility(View.VISIBLE);
     }
 
     private void onArticlesLoad(List<Article> newArticles) {
         Log.d(TAG, "onArticlesLoad: New articles loaded ");
         loading.set(false);
+
+        mSpinner.setVisibility(View.INVISIBLE);
 
         this.articles.addAll(newArticles);
         runOnUiThread(() -> {

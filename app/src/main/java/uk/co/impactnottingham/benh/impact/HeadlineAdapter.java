@@ -37,6 +37,7 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
 
     public void clear() {
         mArticles.clear();
+        notifyDataSetChanged();
     }
 
     @NonNull

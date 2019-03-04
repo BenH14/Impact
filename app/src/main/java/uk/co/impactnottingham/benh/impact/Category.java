@@ -6,6 +6,7 @@ import android.content.Context;
  * Created by benh14 on 1/31/18.
  */
 public enum Category {
+    DEFAULT(0, R.color.colorPrimary, R.color.colorAccent),
     NEWS(2, R.color.colorNews, R.color.colorNewsLight),
     FEATURES(7, R.color.colorFeatures, R.color.colorFeaturesLight),
     LIFESTYLE(19163, R.color.colorLifestyle, R.color.colorLifestyleLight),
@@ -13,7 +14,7 @@ public enum Category {
     REVIEWS(19164, R.color.colorReviews, R.color.colorReviewsLight),
     SPORT(3, R.color.colorSport, R.color.colorSportLight);
 
-    //todo wordpress ids
+
     private final int mId;
     private final int mColor;
     private final int mColorLight;
