@@ -38,6 +38,9 @@ public enum Category {
     }
 
     public String getCapitalizedName() {
+        if (this == DEFAULT) {
+            return "";
+        }
         return name().substring(0,1).toUpperCase() + name().substring(1).toLowerCase();
     }
 }

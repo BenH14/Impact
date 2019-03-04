@@ -69,7 +69,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
             mCategory.setTextColor(article.getCategory().getColor(itemView.getContext()));
             mCategory.setText(article.getCategory().name());
         } catch (NullPointerException ex) {
-            Log.w(TAG, "setArticle: No Category?", ex);
+            Log.w(TAG, "setArticle: No Category? article title is " + article.getTitle(), ex);
             mCategory.setText(" ");
         }
         mDate.setText(article.getTimeFromNow());

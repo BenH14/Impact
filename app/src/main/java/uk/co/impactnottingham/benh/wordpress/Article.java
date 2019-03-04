@@ -72,7 +72,7 @@ public class Article implements Headline, Serializable {
         private int      featured_media;
         private boolean  sticky;
         private boolean  breaking;
-        private Category category;
+        private Category category = Category.DEFAULT;
         private String[] tags;
 
         public Builder setDate(String date) {

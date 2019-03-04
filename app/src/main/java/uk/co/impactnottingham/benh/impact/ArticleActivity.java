@@ -42,9 +42,9 @@ public class ArticleActivity extends AppCompatActivity {
     @BindView(R.id.article_collapsing_toolbar)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.article_app_bar)
-    AppBarLayout mAppBarLayout;
+    AppBarLayout            mAppBarLayout;
     @BindView(R.id.article_share_fab)
-    FloatingActionButton mShareFab;
+    FloatingActionButton    mShareFab;
 
     public void setData(Article data) {
         mArticle = data;
@@ -76,12 +76,13 @@ public class ArticleActivity extends AppCompatActivity {
         //Make the category become the title of the app bar once its collapsed
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
+
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (verticalOffset + appBarLayout.getTotalScrollRange() == 0) {
                     mCollapsingToolbarLayout.setTitle(mArticle.getCategory().getCapitalizedName());
                     isShow = true;
-                } else if(isShow) {
+                } else if (isShow) {
                     mCollapsingToolbarLayout.setTitle(" ");
                     isShow = false;
                 }
@@ -94,7 +95,7 @@ public class ArticleActivity extends AppCompatActivity {
 
         //Set up the share button
         mShareFab.setOnClickListener(v -> {
-            String text = "Check out this article on Impact: " + mArticle.getTitle() + ", " + mArticle.getLink();
+            String text        = "Check out this article on Impact: " + mArticle.getTitle() + ", " + mArticle.getLink();
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Impact");
@@ -106,6 +107,7 @@ public class ArticleActivity extends AppCompatActivity {
 
     /**
      * Handle the back button presses
+     *
      * @param item
      * @return
      */
