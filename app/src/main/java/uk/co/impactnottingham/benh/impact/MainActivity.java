@@ -30,9 +30,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG                  = "MainActivity";
+    private static final String TAG = "MainActivity";
     private static final int    ARTICLES_PER_REQUEST = 10;
     private static final int    SCROLL_LOAD_OFFSET   = 3;
+    public static final String GET_INVOLVED_URL = "https://impactnottingham.com/get-involved/";
 
     private final List<Article> articles;
 
@@ -106,7 +107,8 @@ public class MainActivity extends AppCompatActivity {
                     changeCategory(Category.SPORT);
                     break;
                 case R.id.nav_get_involved:
-                    //TODO
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GET_INVOLVED_URL));
+                    startActivity(browserIntent);
                     break;
                 default:
                     Log.w(TAG, "onCreate: Weird item selected in navview, probably haven't created switch case");
