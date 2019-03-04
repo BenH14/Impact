@@ -6,7 +6,6 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.GetArticlesTask;
@@ -45,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private AtomicReference<Boolean> loading;
 
     private HeadlineAdapter mAdapter;
-    private Category mCategory;
-    private ProgressBar mSpinner;
+    private Category        mCategory;
+    private ProgressBar     mBackgroundSpinner;
+    private ProgressBar     mBottomSpinner;
 
     public MainActivity() {
         mPage = 1;
@@ -76,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recycler_headlines);
         mDrawer = findViewById(R.id.drawer_layout);
-        mSpinner = findViewById(R.id.background_spinner);
+        mBackgroundSpinner = findViewById(R.id.background_spinner);
+        mBottomSpinner = findViewById(R.id.bottom_spinner);
 
         mCategory = Category.DEFAULT;
 
@@ -127,13 +127,20 @@ public class MainActivity extends AppCompatActivity {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
+                int itemCount       = layoutManager.getItemCount();
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
                 if (dy > 0) {  // Only look if we're scrolling down
-                    int itemCount       = layoutManager.getItemCount();
-                    int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
 
                     if (itemCount - SCROLL_LOAD_OFFSET <= lastVisibleItem) {
                         loadArticles();
                     }
+                }
+
+                if (lastVisibleItem == itemCount - 1) {
+                    mBottomSpinner.setVisibility(View.VISIBLE);
+                } else {
+                    mBottomSpinner.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -182,14 +189,14 @@ public class MainActivity extends AppCompatActivity {
     private void clearArticles() {
         articles.clear();
         runOnUiThread(() -> mAdapter.clear());
-        mSpinner.setVisibility(View.VISIBLE);
+        mBackgroundSpinner.setVisibility(View.VISIBLE);
     }
 
     private void onArticlesLoad(List<Article> newArticles) {
         Log.d(TAG, "onArticlesLoad: New articles loaded ");
         loading.set(false);
 
-        mSpinner.setVisibility(View.INVISIBLE);
+        mBackgroundSpinner.setVisibility(View.INVISIBLE);
 
         this.articles.addAll(newArticles);
         runOnUiThread(() -> {
