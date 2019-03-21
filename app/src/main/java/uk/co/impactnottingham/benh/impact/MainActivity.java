@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if (lastVisibleItem == itemCount - 1) {
+                if (lastVisibleItem == itemCount - 1 && !mBackgroundSpinner.isShown()) {
                     mBottomSpinner.setVisibility(View.VISIBLE);
                 } else {
                     mBottomSpinner.setVisibility(View.INVISIBLE);
@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         articles.clear();
         runOnUiThread(() -> mAdapter.clear());
         mBackgroundSpinner.setVisibility(View.VISIBLE);
+        mBottomSpinner.setVisibility(View.INVISIBLE);
     }
 
     private void onArticlesLoad(List<Article> newArticles) {
