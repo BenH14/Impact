@@ -23,7 +23,7 @@
         android:fontFamily="@font/fredoka_one"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/h4"
-        android:text="PRINT ISSUE"
+        android:text="@string/print_issue"
         />
 
     <TextView
@@ -34,7 +34,7 @@
         android:fontFamily="@font/fredoka_one"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/h5"
-        android:text="RELEASES IN"
+        android:text="@string/releases_in"
         />
     
     <LinearLayout
@@ -46,7 +46,7 @@
         android:layout_height="86dp">
 
         <TextView
-            android:id="@+id/print_issue_countdown_hours"
+            android:id="@+id/print_issue_countdown"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,56 +54,18 @@
             android:fontFamily="@font/fredoka_one"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/h4"
-            android:text="00"
+            android:text="@string/placeholder_days_number"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:layout_marginStart="8dp"
 
             android:fontFamily="@font/fredoka_one"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/h4"
-            android:text="H "
-            />
-        <TextView
-            android:id="@+id/print_issue_countdown_mins"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:fontFamily="@font/fredoka_one"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/h4"
-            android:text="00"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:fontFamily="@font/fredoka_one"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/h4"
-            android:text="M "
-            />
-        <TextView
-            android:id="@+id/print_issue_countdown_secs"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:fontFamily="@font/fredoka_one"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/h4"
-            android:text="00"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:fontFamily="@font/fredoka_one"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/h4"
-            android:text="S "
+            android:text="@string/days"
             />
 
     </LinearLayout>

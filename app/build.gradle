@@ -13,8 +13,8 @@ android {
         applicationId "uk.co.impactnottingham.benh.impact"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "0.1.1a"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }

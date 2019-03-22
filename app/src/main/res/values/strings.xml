@@ -3,4 +3,8 @@
     <string name="image_description_headline_image">Headline Image</string>
     <string name="in_print_page">https://issuu.com/impact_magazine</string>
     <string name="impact_caps">IMPACT</string>
+    <string name="print_issue">PRINT ISSUE</string>
+    <string name="releases_in">RELEASES IN</string>
+    <string name="placeholder_days_number">00</string>
+    <string name="days">DAYS</string>
 </resources>
