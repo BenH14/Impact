@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="print_issue_dates">
+        <item>1558310400</item>
+        <item>1553472000</item>
+    </integer-array>
+</resources>

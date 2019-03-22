@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
 
         android:gravity="center"
+        android:paddingTop="@dimen/print_issue_countdown_vertical_padding"
 
 
         android:fontFamily="@font/fredoka_one"
@@ -40,7 +41,8 @@
     <LinearLayout
         android:id="@+id/countdown_time_view"
 
-        android:gravity="center"
+        android:gravity="bottom|center"
+        android:paddingBottom="@dimen/print_issue_countdown_vertical_padding"
 
         android:layout_width="match_parent"
         android:layout_height="86dp">
@@ -57,6 +59,7 @@
             android:text="@string/placeholder_days_number"
             />
         <TextView
+            android:id="@+id/print_issue_countdown_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.GetArticlesTask;
 import uk.co.impactnottingham.benh.wordpress.RequestParameters;
@@ -116,6 +117,17 @@ public class MainActivity extends AppCompatActivity {
             mDrawer.closeDrawers();
             return true;
         });
+
+        View header = navView.getHeaderView(0);
+        TextView printIssueCountdownNum = header.findViewById(R.id.print_issue_countdown);
+        TextView printIssueCountdownLabel = header.findViewById(R.id.print_issue_countdown_label);
+
+        if (printIssueCountdownNum != null && printIssueCountdownLabel != null) {
+            Log.i(TAG, "onCreate: print issue countdown notnull");
+            new PrintIssueCountdown(printIssueCountdownNum, printIssueCountdownLabel).start(this);
+        } else {
+            Log.i(TAG, "onCreate: print issue countdown null");
+        }
 
         mAdapter = new HeadlineAdapter(new ArrayList<>(), getSupportFragmentManager());
 
