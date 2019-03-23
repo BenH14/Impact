@@ -34,6 +34,10 @@
                     android:id="@+id/nav_sport"
                     android:icon="@drawable/ic_selector_24dp"
                     android:title="Sport" />
+                <item
+                    android:id="@+id/nav_podcasts"
+                    android:icon="@drawable/ic_headset_mic_black_24dp"
+                    android:title="Podcasts" />
             </menu>
         </item>
 

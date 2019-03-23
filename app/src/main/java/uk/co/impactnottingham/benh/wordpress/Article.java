@@ -50,6 +50,7 @@ public class Article implements Headline, Serializable {
     private final String            mContent;
     private final String            mSnippet;
     private final boolean           mSticky;
+    private final boolean           mPodcast;
     private final boolean           mBreaking;
     private final String[]          mTags;
     private final Category          mCategory;
@@ -72,6 +73,7 @@ public class Article implements Headline, Serializable {
         private int      featured_media;
         private boolean  sticky;
         private boolean  breaking;
+        private boolean  podcast;
         private Category category = Category.DEFAULT;
         private String[] tags;
 
@@ -137,6 +139,11 @@ public class Article implements Headline, Serializable {
             return this;
         }
 
+        public Builder setPodcast(boolean podcast) {
+            this.podcast = true;
+            return this;
+        }
+
         public Builder setTags(String[] tags) {
             this.tags = tags;
             return this;
@@ -144,7 +151,7 @@ public class Article implements Headline, Serializable {
 
         public Article build() {
             try {
-                return new Article(date, id, link, title, content, author, excerpt, featured_media, sticky, breaking, category, tags);
+                return new Article(date, id, link, title, content, author, excerpt, featured_media, sticky, breaking, podcast, category, tags);
             } catch (MalformedURLException e) {
                 Log.wtf(TAG, "Malformed URL in article build");
                 e.printStackTrace();
@@ -225,7 +232,7 @@ public class Article implements Headline, Serializable {
     }
 
 
-    private Article(String date, long id, String link, String title, String content, int author, String excerpt, int featured_media, boolean sticky, boolean breaking, Category category, String[] tags) throws MalformedURLException {
+    private Article(String date, long id, String link, String title, String content, int author, String excerpt, int featured_media, boolean sticky, boolean breaking, boolean podcast, Category category, String[] tags) throws MalformedURLException {
         mId = id;
         mLink = new URL(link);
         mTitle = title;
@@ -235,6 +242,7 @@ public class Article implements Headline, Serializable {
         mImageId = featured_media;
         mSticky = sticky;
         mBreaking = breaking;
+        mPodcast = podcast;
         mCategory = category;
         mTags = tags;
 
