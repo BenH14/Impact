@@ -54,7 +54,7 @@
             android:fontFamily="@font/fredoka_one"/>
 
         <LinearLayout
-            android:id="@+id/headline_date_layout"
+            android:id="@+id/headline_bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:orientation="horizontal"

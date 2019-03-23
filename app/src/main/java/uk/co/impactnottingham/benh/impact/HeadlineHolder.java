@@ -11,10 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -152,9 +149,13 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
             thumbnailParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
 
             RelativeLayout.LayoutParams titleParams = (RelativeLayout.LayoutParams) (mTitle.getLayoutParams());
-
             titleParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
             titleParams.addRule(RelativeLayout.BELOW, R.id.headline_image);
+
+            LinearLayout bottomLayout = itemView.findViewById(R.id.headline_bottom_layout);
+            RelativeLayout.LayoutParams bottomParams = (RelativeLayout.LayoutParams) bottomLayout.getLayoutParams();
+            bottomParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
+            bottomParams.addRule(RelativeLayout.BELOW, R.id.headline_title);
 
 
 //            RelativeLayout.LayoutParams excerptParams = (RelativeLayout.LayoutParams) (mExcerpt.getLayoutParams());

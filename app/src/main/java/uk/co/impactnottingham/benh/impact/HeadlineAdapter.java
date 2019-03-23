@@ -10,23 +10,28 @@ import android.view.ViewGroup;
 import uk.co.impactnottingham.benh.wordpress.Article;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by benh14 on 12/22/17.
  */
 public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
 
-    private static final String TAG                   = "HeadlineAdapter";
+    private static final String TAG = "HeadlineAdapter";
     private static final int    CARD_LAYOUT           = R.layout.headline_list_row;
     public static final int     HOLDER_TYPE_FEATURED  = 0x01;
     public static final int     HOLDER_TYPE_LANDSCAPE = 0x02;
+    public static final int FEATURED_RATIO = 10;
 
     private final List<Article>   mArticles;
     private final FragmentManager mFragmentManager;
 
+    private final Random mRandom;
+
     public HeadlineAdapter(@NonNull List<Article> initialDataSet, FragmentManager fragmentManager) {
         mArticles = initialDataSet;
         mFragmentManager = fragmentManager;
+        mRandom = new Random();
     }
 
     public void add(@NonNull Article article) {
@@ -75,7 +80,7 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
     @Override
     public int getItemViewType(int position) {
         Article article = mArticles.get(position);
-        if (article.isBreaking()) {
+        if (article.isBreaking() || article.hashCode() % FEATURED_RATIO == 0) {  //Make breaking articles featured as well as about 1 in 10 other articles
             return HOLDER_TYPE_FEATURED;
         } else {
             return HOLDER_TYPE_LANDSCAPE;
