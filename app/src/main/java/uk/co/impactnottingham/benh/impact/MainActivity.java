@@ -209,10 +209,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onArticlesLoad: New articles loaded ");
         loading.set(false);
 
-        mBackgroundSpinner.setVisibility(View.INVISIBLE);
 
         this.articles.addAll(newArticles);
         runOnUiThread(() -> {
+            mBackgroundSpinner.setVisibility(View.INVISIBLE);
             for (Article a : newArticles) {
                 mAdapter.add(a);
             }
