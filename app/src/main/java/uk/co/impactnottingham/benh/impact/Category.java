@@ -12,7 +12,8 @@ public enum Category {
     LIFESTYLE(19163, R.color.colorLifestyle, R.color.colorLifestyleLight),
     ENTERTAINMENT(19161, R.color.colorEntertainment, R.color.colorEntertainmentLight),
     REVIEWS(19164, R.color.colorReviews, R.color.colorReviewsLight),
-    SPORT(3, R.color.colorSport, R.color.colorSportLight);
+    SPORT(3, R.color.colorSport, R.color.colorSportLight),
+    PODCAST(0, R.color.colorPodcasts, R.color.colorPodcastsLight);  // TODO podcast category ID
 
 
     private final int mId;

@@ -73,7 +73,7 @@ public class Article implements Headline, Serializable {
         private int      featured_media;
         private boolean  sticky;
         private boolean  breaking;
-        private boolean  podcast;
+        private boolean  podcast = false;
         private Category category = Category.DEFAULT;
         private String[] tags;
 
@@ -127,8 +127,12 @@ public class Article implements Headline, Serializable {
             while (json.hasNext()) {
                 int categoryId = json.nextInt();
                 for (Category c : Category.values()) {
-                    if (categoryId == c.getId()) {
-                        category = c;
+                     if (categoryId == c.getId()) {
+                         if (c == Category.PODCAST) {
+                             podcast = true;  // We don't ever want a category to be set to podcast
+                         } else {
+                             category = c;
+                         }
                     }
                 }
                 if (categoryId == BREAKING_CATEGORY_ID) {
@@ -317,6 +321,10 @@ public class Article implements Headline, Serializable {
 
     public boolean isBreaking() {
         return mBreaking;
+    }
+
+    public boolean isPodcast() {
+        return mPodcast;
     }
 
     public String[] getTags() {

@@ -40,6 +40,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
     protected final TextView  mDate;
     protected final CardView  mCard;
     protected final TextView  mBreakingLabel;
+    protected final ImageView mPodcastIcon;
 
     protected int mImageSize;
 
@@ -56,6 +57,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         mDate  = itemView.findViewById(R.id.headline_date);
         mCard = itemView.findViewById(R.id.headline_card_view);
         mBreakingLabel = itemView.findViewById(R.id.breaking_label);
+        mPodcastIcon = itemView.findViewById(R.id.headline_podcast_icon);
 
         mContext = context;
         DISPLAY_DENSITY = mContext.getResources().getDisplayMetrics().density;
@@ -87,6 +89,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         }
 
         setBreaking(article.isBreaking());
+        setPodcast(article.isPodcast());
 
         mCard.setOnClickListener((View v) -> {
             gotoArticle(article);
@@ -110,6 +113,14 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         } else {
             mBreakingLabel.setVisibility(View.GONE);
             mCard.setForeground(null);
+        }
+    }
+
+    void setPodcast(boolean podcast) {
+        if (podcast) {
+            mPodcastIcon.setVisibility(View.VISIBLE);
+        } else {
+            mPodcastIcon.setVisibility(View.GONE);
         }
     }
 

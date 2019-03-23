@@ -111,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_sport:
                     changeCategory(Category.SPORT);
                     break;
+                case R.id.nav_podcasts:
+                    changeCategory(Category.PODCAST);
+                    break;
                 case R.id.nav_get_involved:
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GET_INVOLVED_URL));
                     startActivity(browserIntent);

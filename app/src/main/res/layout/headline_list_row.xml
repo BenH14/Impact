@@ -77,6 +77,16 @@
                 android:fontFamily="@font/fredoka_one"
                 android:text="DATE"/>
 
+
+            <ImageView
+                android:id="@+id/headline_podcast_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical|end"
+                android:visibility="gone"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/podcasts_logo_24dp" />
+
             <TextView
                 android:id="@+id/headline_category"
                 android:layout_width="match_parent"
@@ -85,6 +95,7 @@
                 android:fontFamily="@font/fredoka_one"
                 android:layout_marginEnd="4dp"
                 android:text="CATEGORY" />
+
         </LinearLayout>
         
 
