@@ -25,6 +25,9 @@
     <color name="colorSport">#FF8BC34A</color>
     <color name="colorSportLight">#FFAED581</color>
 
+    <color name="colorPodcasts">#FFE91E63</color>
+    <color name="colorPodcastsLight">#FFF06292</color>
+
     <color name="colorBreaking">#FFB71C1C</color>
 
 </resources>

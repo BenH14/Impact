@@ -1,10 +1,12 @@
 package uk.co.impactnottingham.benh.impact;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.GetArticlesTask;
 import uk.co.impactnottingham.benh.wordpress.RequestParameters;
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Set on click listeners for the navigation drawer
         NavigationView navView = findViewById(R.id.nav_view);
+//        navView.setBackgroundResource(R.drawable.drawer_background);
         navView.setCheckedItem(R.id.nav_home);
         navView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -117,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
             mDrawer.closeDrawers();
             return true;
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setDrawerTints(navView, PorterDuff.Mode.DST_IN);
+        }
 
         View header = navView.getHeaderView(0);
         TextView printIssueCountdownNum = header.findViewById(R.id.print_issue_countdown);
@@ -217,5 +224,16 @@ public class MainActivity extends AppCompatActivity {
                 mAdapter.add(a);
             }
         });
+    }
+
+    @SuppressLint("NewApi")
+    private void setDrawerTints(NavigationView navView, PorterDuff.Mode mode) {
+        navView.getMenu().findItem(R.id.nav_news).setIconTintMode(mode);
+        navView.getMenu().findItem(R.id.nav_features).setIconTintMode(mode);
+        navView.getMenu().findItem(R.id.nav_lifestyle).setIconTintMode(mode);
+        navView.getMenu().findItem(R.id.nav_entertainment).setIconTintMode(mode);
+        navView.getMenu().findItem(R.id.nav_reviews).setIconTintMode(mode);
+        navView.getMenu().findItem(R.id.nav_sport).setIconTintMode(mode);
+        navView.getMenu().findItem(R.id.nav_podcasts).setIconTintMode(mode);
     }
 }

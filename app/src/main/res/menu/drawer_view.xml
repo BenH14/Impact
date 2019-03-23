@@ -5,44 +5,50 @@
 
         <item
             android:id="@+id/categories_subheading"
-            android:title="Categories">
+            android:title="@string/categories">
             <menu>
                 <item
+
                     android:id="@+id/nav_home"
-                    android:title="Home" />
+                    android:icon="@drawable/ic_selector_24dp"
+                    android:title="@string/home" />
                 <item
                     android:id="@+id/nav_news"
-                    android:icon="@drawable/ic_selector_24dp"
-                    android:title="News" />
+                    android:icon="@drawable/news_logo_24dp"
+                    android:title="@string/news" />
                 <item
                     android:id="@+id/nav_features"
-                    android:icon="@drawable/ic_selector_24dp"
-                    android:title="Features" />
+                    android:icon="@drawable/features_logo_24dp"
+                    android:title="@string/features" />
                 <item
                     android:id="@+id/nav_lifestyle"
-                    android:icon="@drawable/ic_selector_24dp"
-                    android:title="Lifestyle" />
+                    android:icon="@drawable/lifestyle_logo_24dp"
+                    android:title="@string/lifestyle" />
                 <item
                     android:id="@+id/nav_entertainment"
-                    android:icon="@drawable/ic_selector_24dp"
-                    android:title="Entertainment" />
+                    android:icon="@drawable/entertainment_logo_24dp"
+                    android:iconTint="@color/colorEntertainmentLight"
+                    android:title="@string/entertainment" />
                 <item
                     android:id="@+id/nav_reviews"
-                    android:icon="@drawable/ic_selector_24dp"
-                    android:title="Reviews" />
+                    android:icon="@drawable/reviews_logo_24dp"
+                    android:iconTint="@color/colorReviewsLight"
+                    android:title="@string/reviews" />
                 <item
                     android:id="@+id/nav_sport"
-                    android:icon="@drawable/ic_selector_24dp"
-                    android:title="Sport" />
+                    android:icon="@drawable/sport_logo_24dp"
+                    android:iconTint="@color/colorSportLight"
+                    android:title="@string/sport" />
                 <item
                     android:id="@+id/nav_podcasts"
-                    android:icon="@drawable/ic_headset_mic_black_24dp"
-                    android:title="Podcasts" />
+                    android:icon="@drawable/podcasts_logo_24dp"
+                    android:iconTint="@color/colorPodcastsLight"
+                    android:title="@string/podcasts" />
             </menu>
         </item>
 
         <item
             android:id="@+id/nav_get_involved"
-            android:title="Get Involved" />
+            android:title="@string/get_involved" />
     </group>
 </menu>

@@ -7,4 +7,14 @@
     <string name="releases_in">RELEASES IN</string>
     <string name="placeholder_days_number">00</string>
     <string name="days">DAYS</string>
+    <string name="home">Home</string>
+    <string name="news">News</string>
+    <string name="features">Features</string>
+    <string name="lifestyle">Lifestyle</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="reviews">Reviews</string>
+    <string name="sport">Sport</string>
+    <string name="podcasts">Podcasts</string>
+    <string name="get_involved">Get Involved</string>
+    <string name="categories">Categories</string>
 </resources>
