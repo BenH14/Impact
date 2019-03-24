@@ -3,6 +3,7 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
 
     android:id="@+id/headline_card_view"
 
@@ -42,15 +43,28 @@
             android:id="@+id/headline_title"
 
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="72dp"
 
             android:layout_toEndOf="@id/headline_image"
 
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
 
             android:text="PLACEHOLDER HEADLINE"
             android:textSize="18sp"
+            android:fontFamily="@font/fredoka_one"/>
+        
+        <TextView
+            android:id="@+id/headline_snippet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/headline_title"
+            android:layout_above="@id/headline_bottom_layout"
+
+            android:visibility="gone"
+
+            android:text="snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet snippet"
+            android:textSize="12sp"
             android:fontFamily="@font/fredoka_one"/>
 
         <LinearLayout

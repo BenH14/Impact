@@ -210,9 +210,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void clearArticles() {
         articles.clear();
-        runOnUiThread(() -> mAdapter.clear());
-        mBackgroundSpinner.setVisibility(View.VISIBLE);
-        mBottomSpinner.setVisibility(View.INVISIBLE);
+        runOnUiThread(() -> {
+            mAdapter.clear();
+            mBackgroundSpinner.setVisibility(View.VISIBLE);
+            mBottomSpinner.setVisibility(View.INVISIBLE);
+        });
     }
 
     private void onArticlesLoad(List<Article> newArticles) {

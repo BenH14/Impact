@@ -2,18 +2,20 @@ package uk.co.impactnottingham.benh.impact;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Rect;
+import android.graphics.Shader;
 import android.support.annotation.UiThread;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import uk.co.impactnottingham.benh.glide.GlideApp;
 import uk.co.impactnottingham.benh.wordpress.Article;
@@ -28,6 +30,8 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
 
     private static final String TAG = "HeadlineHolder";
 
+    public static final int HEADLINE_FADE_OUT_OFFSET = 40;
+
     protected final float   DISPLAY_DENSITY;
     protected final Context mContext;
 
@@ -38,26 +42,37 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
     protected final CardView  mCard;
     protected final TextView  mBreakingLabel;
     protected final ImageView mPodcastIcon;
+    protected final TextView  mSnippet;
 
     protected int mImageSize;
 
     private FragmentManager fm;
 
+    private final Shader mTitleShader;
+
     HeadlineHolder(View itemView, Context context, FragmentManager fragmentManager) {
         super(itemView);
+        int maxHeight = context.getResources().getDimensionPixelSize(R.dimen.max_headline_title_size);
+        mTitleShader = new LinearGradient(0, maxHeight - HEADLINE_FADE_OUT_OFFSET,
+                0, maxHeight,
+                Color.BLACK, 0x66FFFFFF,
+                Shader.TileMode.CLAMP);
 
         fm = fragmentManager;
 
         mThumbnail = itemView.findViewById(R.id.headline_image);
         mTitle = itemView.findViewById(R.id.headline_title);
         mCategory = itemView.findViewById(R.id.headline_category);
-        mDate  = itemView.findViewById(R.id.headline_date);
+        mDate = itemView.findViewById(R.id.headline_date);
         mCard = itemView.findViewById(R.id.headline_card_view);
         mBreakingLabel = itemView.findViewById(R.id.breaking_label);
         mPodcastIcon = itemView.findViewById(R.id.headline_podcast_icon);
+        mSnippet = itemView.findViewById(R.id.headline_snippet);
 
         mContext = context;
         DISPLAY_DENSITY = mContext.getResources().getDisplayMetrics().density;
+
+        mTitle.getPaint().setShader(mTitleShader);
     }
 
     void setArticle(Article article) {
@@ -84,6 +99,8 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
                 }
             });
         }
+
+        mSnippet.setText(article.getSnippet());
 
         setBreaking(article.isBreaking());
         setPodcast(article.isPodcast());
@@ -137,6 +154,32 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
 
     static class FeaturedHeadlineHolder extends HeadlineHolder {
 
+
+        public static final int SNIPPET_FADEOUT_OFFSET = 100;
+
+        @Override
+        void setArticle(Article article) {
+            super.setArticle(article);
+
+            Rect bounds = new Rect();
+            mTitle.getPaint().getTextBounds(article.getTitle(), 0, article.getTitle().length(), bounds);
+
+            // Good enough as an approximation of card width
+            int actualHeight = (int) ((bounds.width() / (float) (Resources.getSystem().getDisplayMetrics().widthPixels - 40)) * bounds.height());
+
+            int oneDp       = mContext.getResources().getDimensionPixelSize(R.dimen.onedp);
+            int totalHeight = oneDp * 72;
+            int freeHeight  = totalHeight - actualHeight;
+
+            Shader snippetShader = new LinearGradient(
+                    0, freeHeight - SNIPPET_FADEOUT_OFFSET,
+                    0, freeHeight,
+                    Color.BLACK, 0xAA000000 + ContextCompat.getColor(mContext, R.color.colorPrimary),
+                    Shader.TileMode.CLAMP);
+            mSnippet.getPaint().setShader(snippetShader);
+            mSnippet.setVisibility(View.VISIBLE);
+        }
+
         FeaturedHeadlineHolder(View itemView, Context context, FragmentManager fragmentManager) {
             super(itemView, context, fragmentManager);
             mImageSize = WordpressREST.IMAGE_SIZE_MEDIUM;
@@ -152,10 +195,11 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
             titleParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
             titleParams.addRule(RelativeLayout.BELOW, R.id.headline_image);
 
-            LinearLayout bottomLayout = itemView.findViewById(R.id.headline_bottom_layout);
+            LinearLayout                bottomLayout = itemView.findViewById(R.id.headline_bottom_layout);
             RelativeLayout.LayoutParams bottomParams = (RelativeLayout.LayoutParams) bottomLayout.getLayoutParams();
             bottomParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
-            bottomParams.addRule(RelativeLayout.BELOW, R.id.headline_title);
+
+
 
 
 //            RelativeLayout.LayoutParams excerptParams = (RelativeLayout.LayoutParams) (mExcerpt.getLayoutParams());

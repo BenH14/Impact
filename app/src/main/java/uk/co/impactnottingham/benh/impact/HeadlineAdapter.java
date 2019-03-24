@@ -21,7 +21,7 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
     private static final int    CARD_LAYOUT           = R.layout.headline_list_row;
     public static final int     HOLDER_TYPE_FEATURED  = 0x01;
     public static final int     HOLDER_TYPE_LANDSCAPE = 0x02;
-    public static final int FEATURED_RATIO = 10;
+    public static final int FEATURED_RATIO = 4;
 
     private final List<Article>   mArticles;
     private final FragmentManager mFragmentManager;
