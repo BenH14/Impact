@@ -174,7 +174,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
             Shader snippetShader = new LinearGradient(
                     0, freeHeight - SNIPPET_FADEOUT_OFFSET,
                     0, freeHeight,
-                    Color.BLACK, 0xAA000000 + ContextCompat.getColor(mContext, R.color.colorPrimary),
+                    0xDD000000, 0x99000000 + ContextCompat.getColor(mContext, R.color.colorPrimary),
                     Shader.TileMode.CLAMP);
             mSnippet.getPaint().setShader(snippetShader);
             mSnippet.setVisibility(View.VISIBLE);
