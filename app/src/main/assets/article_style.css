@@ -22,3 +22,11 @@ blockquote, q.left, q {
 
     padding: 0 0.5em 0 0.5em;
 }
+
+iframe {
+    display: block;
+    /*border: 0;*/
+    max-width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

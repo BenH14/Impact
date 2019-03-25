@@ -1,5 +1,6 @@
 package uk.co.impactnottingham.benh.impact;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.impactnottingham.benh.glide.GlideApp;
@@ -50,6 +52,7 @@ public class ArticleActivity extends AppCompatActivity {
         mArticle = data;
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,9 +95,15 @@ public class ArticleActivity extends AppCompatActivity {
         //Load the image and then load the article into the webview
         mArticle.loadImageLink(WordpressREST.IMAGE_SIZE_MEDIUM, () -> runOnUiThread(() -> GlideApp.with(this).load(mArticle.getImageLink().toString()).into(mImage)));
 
+        mContent.getSettings().setJavaScriptEnabled(true);
+
         //Attach the CSS to the data
         String htmlData = "<link rel=\"stylesheet\" type=\"text/css\" href=\"article_style.css\" />" + mArticle.getContent();
+        //htmlData = "<script async defer src=\"https://platform.instagram.com/en_US/embeds.js\">" + htmlData;
         mContent.loadDataWithBaseURL("file:///android_asset/", htmlData, "text/html", "UTF-8", null);
+
+        //Get width of screen
+
 
         //Set up the share button
         mShareFab.setOnClickListener(v -> {
