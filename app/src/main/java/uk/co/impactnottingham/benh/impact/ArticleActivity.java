@@ -91,7 +91,10 @@ public class ArticleActivity extends AppCompatActivity {
 
         //Load the image and then load the article into the webview
         mArticle.loadImageLink(WordpressREST.IMAGE_SIZE_MEDIUM, () -> runOnUiThread(() -> GlideApp.with(this).load(mArticle.getImageLink().toString()).into(mImage)));
-        mContent.loadData(mArticle.getContent(), "text/html", null);
+
+        //Attach the CSS to the data
+        String htmlData = "<link rel=\"stylesheet\" type=\"text/css\" href=\"article_style.css\" />" + mArticle.getContent();
+        mContent.loadDataWithBaseURL("file:///android_asset/", htmlData, "text/html", "UTF-8", null);
 
         //Set up the share button
         mShareFab.setOnClickListener(v -> {

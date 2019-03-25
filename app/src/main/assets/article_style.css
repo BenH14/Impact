@@ -1,0 +1,24 @@
+blockquote, q.left, q {
+/*    border-left: 0.2em solid #FEAE00;
+    color: #FEAE00;*/
+    border-left: 0.2em solid #FEFE00;
+    color: #FEFE00;
+    /*background-color: #EEEEEE;*/
+
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 24px;
+    text-transform: uppercase;
+    quotes: none;
+
+    width: 90%;
+    margin: 0 0 15px;
+
+    display: block;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0.1em;
+    margin-inline-end: 0.1em;
+
+    padding: 0 0.5em 0 0.5em;
+}
