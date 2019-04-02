@@ -29,5 +29,6 @@
     <color name="colorPodcastsLight">#FFF06292</color>
 
     <color name="colorBreaking">#FFB71C1C</color>
+    <color name="headline_background">#f5f5f5</color>
 
 </resources>

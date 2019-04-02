@@ -44,6 +44,8 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
     protected final ImageView mPodcastIcon;
     protected final TextView  mSnippet;
 
+    protected final LinearLayout mFadeout;
+
     protected int mImageSize;
 
     private FragmentManager fm;
@@ -68,6 +70,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         mBreakingLabel = itemView.findViewById(R.id.breaking_label);
         mPodcastIcon = itemView.findViewById(R.id.headline_podcast_icon);
         mSnippet = itemView.findViewById(R.id.headline_snippet);
+        mFadeout = itemView.findViewById(R.id.headline_fadeout_bar);
 
         mContext = context;
         DISPLAY_DENSITY = mContext.getResources().getDisplayMetrics().density;
@@ -157,6 +160,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
 
         public static final int SNIPPET_FADEOUT_OFFSET = 100;
 
+        /*
         @Override
         void setArticle(Article article) {
             super.setArticle(article);
@@ -177,8 +181,9 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
                     0xDD000000, 0x99000000 + ContextCompat.getColor(mContext, R.color.colorPrimary),
                     Shader.TileMode.CLAMP);
             mSnippet.getPaint().setShader(snippetShader);
-            mSnippet.setVisibility(View.VISIBLE);
+//            mSnippet.setVisibility(View.VISIBLE);
         }
+        */
 
         FeaturedHeadlineHolder(View itemView, Context context, FragmentManager fragmentManager) {
             super(itemView, context, fragmentManager);
@@ -199,15 +204,11 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
             RelativeLayout.LayoutParams bottomParams = (RelativeLayout.LayoutParams) bottomLayout.getLayoutParams();
             bottomParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
 
+            RelativeLayout.LayoutParams snippetParams = (RelativeLayout.LayoutParams) (mSnippet.getLayoutParams());
+            snippetParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
 
-
-
-//            RelativeLayout.LayoutParams excerptParams = (RelativeLayout.LayoutParams) (mExcerpt.getLayoutParams());
-
-//            excerptParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
-//            excerptParams.addRule(RelativeLayout.BELOW, R.id.headline_title);
-
-
+            RelativeLayout.LayoutParams fadeoutParams = (RelativeLayout.LayoutParams) (mFadeout.getLayoutParams());
+            fadeoutParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
         }
     }
 }
