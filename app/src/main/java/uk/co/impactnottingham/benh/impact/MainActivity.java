@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import butterknife.BindView;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.GetArticlesTask;
 import uk.co.impactnottingham.benh.wordpress.RequestParameters;
@@ -39,8 +40,15 @@ public class MainActivity extends AppCompatActivity {
 
     private final List<Article> articles;
 
-    private RecyclerView mRecyclerView;
-    private DrawerLayout mDrawer;
+    @BindView(R.id.recycler_headlines)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawer;
+
+    @BindView(R.id.background_spinner)
+    ProgressBar     mBackgroundSpinner;
+    @BindView(R.id.bottom_spinner)
+    ProgressBar     mBottomSpinner;
 
     private int mPage;
 
@@ -48,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
     private HeadlineAdapter mAdapter;
     private Category        mCategory;
-    private ProgressBar     mBackgroundSpinner;
-    private ProgressBar     mBottomSpinner;
 
     public MainActivity() {
         mPage = 1;
