@@ -35,52 +35,42 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-    private static final int    ARTICLES_PER_REQUEST = 10;
-    private static final int    SCROLL_LOAD_OFFSET   = 3;
-    public static final String GET_INVOLVED_URL = "https://impactnottingham.com/get-involved/";
+    private static final String TAG              = "MainActivity";
 
-    private final List<Article> articles;
+    private static final String GET_INVOLVED_URL = "https://impactnottingham.com/get-involved/";
 
+    private static final int ARTICLES_PER_REQUEST = 10;
+    private static final int SCROLL_LOAD_OFFSET   = 3;
+
+
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private final List<Article>   mArticles;
+    private       HeadlineAdapter mAdapter;
+
+    private int                      mPageNumber;
+    private AtomicReference<Boolean> loading;
+    private Category                 mCategory;
+
+    // Views
     @BindView(R.id.recycler_headlines)
-    RecyclerView mRecyclerView;
+    RecyclerView       mRecyclerView;
     @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawer;
-
+    DrawerLayout       mDrawer;
     @BindView(R.id.background_spinner)
-    ProgressBar     mBackgroundSpinner;
+    ProgressBar        mBackgroundSpinner;
     @BindView(R.id.bottom_spinner)
-    ProgressBar     mBottomSpinner;
+    ProgressBar        mBottomSpinner;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
-
-    private int mPage;
-
-    private AtomicReference<Boolean> loading;
-
-    private HeadlineAdapter mAdapter;
-    private Category        mCategory;
+    @BindView(R.id.nav_view)
+    NavigationView     mNavigationView;
 
     public MainActivity() {
-        mPage = 1;
-        articles = new ArrayList<>();
+        mPageNumber = 1;
+        mArticles = new ArrayList<>();
         loading = new AtomicReference<>(false);
+        mCategory = Category.DEFAULT;
     }
-
-    private void changeCategory(Category category) {
-        mCategory = category;
-        mPage = 1;
-        Drawable actionbar = getDrawable(R.drawable.actionbar_bg);
-        if (mCategory == Category.DEFAULT) {
-            actionbar.clearColorFilter();
-        } else {
-            actionbar.setColorFilter(new PorterDuffColorFilter(mCategory.getColor(this), PorterDuff.Mode.SRC_ATOP));
-        }
-        getSupportActionBar().setBackgroundDrawable(actionbar);
-        clearArticles();
-        loadArticles();
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +79,28 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mCategory = Category.DEFAULT;
+        initNavDrawer();
+        initPrintCountdown();
+        initRecyclerView();
+        initSwipeRefresh();
+        initToolbar();
 
+        loadArticles();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            mDrawer.openDrawer(GravityCompat.START);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initNavDrawer() {
         //Set on click listeners for the navigation drawer
-        NavigationView navView = findViewById(R.id.nav_view);
-//        navView.setBackgroundResource(R.drawable.drawer_background);
-        navView.setCheckedItem(R.id.nav_home);
-        navView.setNavigationItemSelectedListener(item -> {
+        mNavigationView.setCheckedItem(R.id.nav_home);
+        mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.nav_home:
                     changeCategory(Category.DEFAULT);
@@ -132,20 +137,29 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            setDrawerTints(navView, PorterDuff.Mode.DST_IN);
+            setDrawerTints(mNavigationView, PorterDuff.Mode.DST_IN);
         }
+    }
 
-        View header = navView.getHeaderView(0);
-        TextView printIssueCountdownNum = header.findViewById(R.id.print_issue_countdown);
+    private void initPrintCountdown() {
+        View header = mNavigationView.getHeaderView(0);
+
+        TextView printIssueCountdownNum   = header.findViewById(R.id.print_issue_countdown);
         TextView printIssueCountdownLabel = header.findViewById(R.id.print_issue_countdown_label);
 
         if (printIssueCountdownNum != null && printIssueCountdownLabel != null) {
-            Log.i(TAG, "onCreate: print issue countdown notnull");
             new PrintIssueCountdown(printIssueCountdownNum, printIssueCountdownLabel).start(this);
         } else {
-            Log.i(TAG, "onCreate: print issue countdown null");
+            Log.w(TAG, "onCreate: print issue countdown null");
         }
+    }
 
+    private void initSwipeRefresh() {
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
+        mRefreshLayout.setOnRefreshListener(this::refresh);
+    }
+
+    private void initRecyclerView() {
         mAdapter = new HeadlineAdapter(new ArrayList<>(), getSupportFragmentManager());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -173,35 +187,41 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    private void initToolbar() {
         Toolbar mainToolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(mainToolbar);
 
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+
         actionBar.setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_24dp);
-
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
-        mRefreshLayout.setOnRefreshListener(this::refresh);
-
-        loadArticles();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
-                return true;
+    private void changeCategory(Category category) {
+        mCategory = category;
+        mPageNumber = 1;
+
+        Drawable actionbar = getDrawable(R.drawable.actionbar_bg);
+        assert actionbar != null;
+
+        if (mCategory == Category.DEFAULT) {
+            actionbar.clearColorFilter();
+        } else {
+            actionbar.setColorFilter(new PorterDuffColorFilter(mCategory.getColor(this), PorterDuff.Mode.SRC_ATOP));
         }
-        return super.onOptionsItemSelected(item);
+        //noinspection ConstantConditions
+        getSupportActionBar().setBackgroundDrawable(actionbar);
+        clearArticles();
+        loadArticles();
     }
 
     private void refresh() {
         clearArticles();
         loadArticles();
-        mRefreshLayout.setRefreshing(false);
     }
 
     private void loadArticles() {
@@ -216,16 +236,16 @@ public class MainActivity extends AppCompatActivity {
     private void loadArticles(RequestParameters parameters) {
         if (!loading.getAndSet(true)) {
             Log.d(TAG, "loadArticles: Loading new Articles");
-            parameters.addParameter("page", String.valueOf(mPage));
+            parameters.addParameter("page", String.valueOf(mPageNumber));
             parameters.addParameter("per_page", String.valueOf(ARTICLES_PER_REQUEST));
 
             new GetArticlesTask(this::onArticlesLoad).execute(parameters);
-            mPage++;
+            mPageNumber++;
         }
     }
 
     private void clearArticles() {
-        articles.clear();
+        mArticles.clear();
         runOnUiThread(() -> {
             mAdapter.clear();
             mBackgroundSpinner.setVisibility(View.VISIBLE);
@@ -235,10 +255,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void onArticlesLoad(List<Article> newArticles) {
         Log.d(TAG, "onArticlesLoad: New articles loaded ");
+
+        mRefreshLayout.setRefreshing(false);
         loading.set(false);
 
-
-        this.articles.addAll(newArticles);
+        this.mArticles.addAll(newArticles);
         runOnUiThread(() -> {
             mBackgroundSpinner.setVisibility(View.INVISIBLE);
             for (Article a : newArticles) {
@@ -247,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressWarnings("SameParameterValue")
     @SuppressLint("NewApi")
     private void setDrawerTints(NavigationView navView, PorterDuff.Mode mode) {
         navView.getMenu().findItem(R.id.nav_news).setIconTintMode(mode);
