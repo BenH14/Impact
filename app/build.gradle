@@ -12,9 +12,9 @@ android {
     defaultConfig {
         applicationId "uk.co.impactnottingham.benh.impact"
         minSdkVersion 21
-        targetSdkVersion 27
-        versionCode 4
-        versionName "0.1.2a"
+        targetSdkVersion 28
+        versionCode 5
+        versionName "0.1.3a"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
