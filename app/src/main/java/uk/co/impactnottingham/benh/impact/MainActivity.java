@@ -9,8 +9,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.GetArticlesTask;
 import uk.co.impactnottingham.benh.wordpress.RequestParameters;
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar     mBackgroundSpinner;
     @BindView(R.id.bottom_spinner)
     ProgressBar     mBottomSpinner;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mRefreshLayout;
 
     private int mPage;
 
@@ -83,10 +87,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = findViewById(R.id.recycler_headlines);
-        mDrawer = findViewById(R.id.drawer_layout);
-        mBackgroundSpinner = findViewById(R.id.background_spinner);
-        mBottomSpinner = findViewById(R.id.bottom_spinner);
+        ButterKnife.bind(this);
 
         mCategory = Category.DEFAULT;
 
@@ -181,6 +182,9 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_24dp);
 
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary));
+        mRefreshLayout.setOnRefreshListener(this::refresh);
+
         loadArticles();
     }
 
@@ -192,6 +196,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refresh() {
+        clearArticles();
+        loadArticles();
+        mRefreshLayout.setRefreshing(false);
     }
 
     private void loadArticles() {
