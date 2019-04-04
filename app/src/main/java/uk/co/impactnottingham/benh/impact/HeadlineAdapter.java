@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import uk.co.impactnottingham.benh.viewholders.FeaturedHeadlineHolder;
 import uk.co.impactnottingham.benh.viewholders.HeadlineHolder;
 import uk.co.impactnottingham.benh.viewholders.LandscapeHeadlineHolder;
+import uk.co.impactnottingham.benh.viewholders.SuperFeaturedHeadlineHolder;
 import uk.co.impactnottingham.benh.wordpress.Article;
 
 import java.util.List;
@@ -22,9 +23,13 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
 
     private static final String TAG = "HeadlineAdapter";
     private static final int    CARD_LAYOUT           = R.layout.headline_list_row;
-    public static final int     HOLDER_TYPE_FEATURED  = 0x01;
-    public static final int     HOLDER_TYPE_LANDSCAPE = 0x02;
-    public static final int FEATURED_RATIO = 4;
+
+    private static final int HOLDER_TYPE_LANDSCAPE     = 0x00;
+    private static final int HOLDER_TYPE_FEATURED      = 0x01;
+    private static final int HOLDER_TYPE_SUPERFEATURED = 0x02;
+
+    private static final int FEATURED_RATIO      = 4;
+    private static final int SUPERFEATURED_RATIO = 15;
 
     private final List<Article>   mArticles;
     private final FragmentManager mFragmentManager;
@@ -64,8 +69,10 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
             case HOLDER_TYPE_FEATURED:
                 holder = new FeaturedHeadlineHolder(v, parent.getContext(), mFragmentManager);
                 break;
+            case HOLDER_TYPE_SUPERFEATURED:
+                holder = new SuperFeaturedHeadlineHolder(v, parent.getContext(), mFragmentManager);
+                break;
         }
-
 
         return holder;
     }
@@ -85,6 +92,8 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
         Article article = mArticles.get(position);
         if (article.isBreaking() || article.hashCode() % FEATURED_RATIO == 0) {  //Make breaking articles featured as well as about 1 in 10 other articles
             return HOLDER_TYPE_FEATURED;
+        } else if (article.hashCode() % SUPERFEATURED_RATIO == 0) {
+            return HOLDER_TYPE_SUPERFEATURED;
         } else {
             return HOLDER_TYPE_LANDSCAPE;
         }

@@ -14,12 +14,13 @@ import uk.co.impactnottingham.benh.wordpress.WordpressREST;
  */
 public class FeaturedHeadlineHolder extends HeadlineHolder {
 
+
     public FeaturedHeadlineHolder(View itemView, Context context, FragmentManager fragmentManager) {
         super(itemView, context, fragmentManager);
         mImageSize = WordpressREST.IMAGE_SIZE_MEDIUM;
 
         mCard.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-        mCard.getLayoutParams().height = (int) (2 * mContext.getResources().getDimension(R.dimen.headline_card_height));
+        mCard.getLayoutParams().height = (int) (getSizeRatio() * mContext.getResources().getDimension(R.dimen.headline_card_height));
 
         RelativeLayout.LayoutParams thumbnailParams = (RelativeLayout.LayoutParams) (mThumbnail.getLayoutParams());
 
@@ -38,6 +39,10 @@ public class FeaturedHeadlineHolder extends HeadlineHolder {
 
         RelativeLayout.LayoutParams fadeoutParams = (RelativeLayout.LayoutParams) (mFadeout.getLayoutParams());
         fadeoutParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
+    }
+
+    protected double getSizeRatio() {
+       return 2;
     }
 
 }
