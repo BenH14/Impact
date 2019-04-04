@@ -13,7 +13,7 @@ public enum Category {
     ENTERTAINMENT(19161, R.color.colorEntertainment, R.color.colorEntertainmentLight),
     REVIEWS(19164, R.color.colorReviews, R.color.colorReviewsLight),
     SPORT(3, R.color.colorSport, R.color.colorSportLight),
-    PODCAST(0, R.color.colorPodcasts, R.color.colorPodcastsLight);  // TODO podcast category ID
+    PODCAST(29325, R.color.colorPodcasts, R.color.colorPodcastsLight);
 
 
     private final int mId;
