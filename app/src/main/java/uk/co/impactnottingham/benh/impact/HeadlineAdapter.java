@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import uk.co.impactnottingham.benh.viewholders.FeaturedHeadlineHolder;
+import uk.co.impactnottingham.benh.viewholders.HeadlineHolder;
+import uk.co.impactnottingham.benh.viewholders.LandscapeHeadlineHolder;
 import uk.co.impactnottingham.benh.wordpress.Article;
 
 import java.util.List;
@@ -56,10 +59,10 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineHolder> {
 
         switch (viewType) {
             case HOLDER_TYPE_LANDSCAPE:
-                holder = new HeadlineHolder.LandscapeHeadlineHolder(v, parent.getContext(), mFragmentManager);
+                holder = new LandscapeHeadlineHolder(v, parent.getContext(), mFragmentManager);
                 break;
             case HOLDER_TYPE_FEATURED:
-                holder = new HeadlineHolder.FeaturedHeadlineHolder(v, parent.getContext(), mFragmentManager);
+                holder = new FeaturedHeadlineHolder(v, parent.getContext(), mFragmentManager);
                 break;
         }
 

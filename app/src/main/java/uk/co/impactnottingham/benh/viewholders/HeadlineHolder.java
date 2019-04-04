@@ -1,15 +1,12 @@
-package uk.co.impactnottingham.benh.impact;
+package uk.co.impactnottingham.benh.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
-import android.graphics.Rect;
 import android.graphics.Shader;
 import android.support.annotation.UiThread;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import uk.co.impactnottingham.benh.glide.GlideApp;
+import uk.co.impactnottingham.benh.impact.ArticleActivity;
+import uk.co.impactnottingham.benh.impact.R;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.WordpressREST;
 
@@ -78,7 +77,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         mTitle.getPaint().setShader(mTitleShader);
     }
 
-    void setArticle(Article article) {
+    public void setArticle(Article article) {
         GlideApp.with(itemView.getContext()).clear(mThumbnail);
 
         mTitle.setText(article.getTitle());
@@ -147,68 +146,5 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         mContext.startActivity(intent);
     }
 
-    static class LandscapeHeadlineHolder extends HeadlineHolder {
 
-        LandscapeHeadlineHolder(View itemView, Context context, FragmentManager fragmentManager) {
-            super(itemView, context, fragmentManager);
-            mImageSize = WordpressREST.IMAGE_SIZE_THUMBNAIL;
-        }
-    }
-
-    static class FeaturedHeadlineHolder extends HeadlineHolder {
-
-
-        public static final int SNIPPET_FADEOUT_OFFSET = 100;
-
-        /*
-        @Override
-        void setArticle(Article article) {
-            super.setArticle(article);
-
-            Rect bounds = new Rect();
-            mTitle.getPaint().getTextBounds(article.getTitle(), 0, article.getTitle().length(), bounds);
-
-            // Good enough as an approximation of card width
-            int actualHeight = (int) ((bounds.width() / (float) (Resources.getSystem().getDisplayMetrics().widthPixels - 40)) * bounds.height());
-
-            int oneDp       = mContext.getResources().getDimensionPixelSize(R.dimen.onedp);
-            int totalHeight = oneDp * 72;
-            int freeHeight  = totalHeight - actualHeight;
-
-            Shader snippetShader = new LinearGradient(
-                    0, freeHeight - SNIPPET_FADEOUT_OFFSET,
-                    0, freeHeight,
-                    0xDD000000, 0x99000000 + ContextCompat.getColor(mContext, R.color.colorPrimary),
-                    Shader.TileMode.CLAMP);
-            mSnippet.getPaint().setShader(snippetShader);
-//            mSnippet.setVisibility(View.VISIBLE);
-        }
-        */
-
-        FeaturedHeadlineHolder(View itemView, Context context, FragmentManager fragmentManager) {
-            super(itemView, context, fragmentManager);
-            mImageSize = WordpressREST.IMAGE_SIZE_MEDIUM;
-
-            mCard.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-            mCard.getLayoutParams().height = (int) (2 * mContext.getResources().getDimension(R.dimen.headline_card_height));
-
-            RelativeLayout.LayoutParams thumbnailParams = (RelativeLayout.LayoutParams) (mThumbnail.getLayoutParams());
-
-            thumbnailParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-
-            RelativeLayout.LayoutParams titleParams = (RelativeLayout.LayoutParams) (mTitle.getLayoutParams());
-            titleParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
-            titleParams.addRule(RelativeLayout.BELOW, R.id.headline_image);
-
-            LinearLayout                bottomLayout = itemView.findViewById(R.id.headline_bottom_layout);
-            RelativeLayout.LayoutParams bottomParams = (RelativeLayout.LayoutParams) bottomLayout.getLayoutParams();
-            bottomParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
-
-            RelativeLayout.LayoutParams snippetParams = (RelativeLayout.LayoutParams) (mSnippet.getLayoutParams());
-            snippetParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
-
-            RelativeLayout.LayoutParams fadeoutParams = (RelativeLayout.LayoutParams) (mFadeout.getLayoutParams());
-            fadeoutParams.addRule(RelativeLayout.END_OF, RelativeLayout.NO_ID);
-        }
-    }
 }
