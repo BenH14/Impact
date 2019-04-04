@@ -130,6 +130,9 @@ public class MainActivity extends AppCompatActivity {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GET_INVOLVED_URL));
                     startActivity(browserIntent);
                     break;
+                case R.id.nav_about:
+                    Intent aboutIntent = new Intent(this, AboutActivity.class);
+                    startActivity(aboutIntent);
                 default:
                     Log.w(TAG, "onCreate: Weird item selected in navview, probably haven't created switch case");
             }

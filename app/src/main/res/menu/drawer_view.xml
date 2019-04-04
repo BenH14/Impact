@@ -50,5 +50,8 @@
         <item
             android:id="@+id/nav_get_involved"
             android:title="@string/get_involved" />
+        <item
+            android:id="@+id/nav_about"
+            android:title="@string/about" />
     </group>
 </menu>
