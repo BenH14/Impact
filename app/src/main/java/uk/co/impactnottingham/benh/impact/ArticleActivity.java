@@ -101,8 +101,7 @@ public class ArticleActivity extends AppCompatActivity {
         String htmlData = "<link rel=\"stylesheet\" type=\"text/css\" href=\"article_style.css\" />" + mArticle.getContent();
         //htmlData = "<script async defer src=\"https://platform.instagram.com/en_US/embeds.js\">" + htmlData;
         mContent.loadDataWithBaseURL("file:///android_asset/", htmlData, "text/html", "UTF-8", null);
-
-        //Get width of screen
+        mContent.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
 
         //Set up the share button
