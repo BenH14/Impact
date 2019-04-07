@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refresh() {
+        mPageNumber = 1;
         clearArticles();
         loadArticles();
     }
