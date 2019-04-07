@@ -7,6 +7,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.support.annotation.UiThread;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -121,10 +122,14 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
 
     @UiThread
     void setImage(URL url) {
+        CircularProgressDrawable spinner = new CircularProgressDrawable(mContext);
+        spinner.setStrokeWidth(5f);
+        spinner.setCenterRadius(30f);
+        spinner.start();
         GlideApp.with(itemView.getContext())
                 .asDrawable()
                 .load(url.toString())
-                .thumbnail(0.1f)
+                .placeholder(spinner)
                 .transition(DrawableTransitionOptions.withCrossFade(100))
                 .into((ImageView) itemView.findViewById(R.id.headline_image));
     }
