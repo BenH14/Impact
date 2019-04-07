@@ -13,5 +13,5 @@ public interface Headline {
 
     Article getArticle();
 
-    void loadImageLink(int imageSize, @Nullable LoadCallback callback);
+    void loadImageLink(@Nullable LoadCallback callback);
 }

@@ -3,6 +3,7 @@ package uk.co.impactnottingham.benh.wordpress;
 import android.annotation.SuppressLint;
 import android.util.JsonReader;
 import android.util.Log;
+import android.widget.Toast;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;

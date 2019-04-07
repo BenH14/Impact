@@ -93,7 +93,7 @@ public class ArticleActivity extends AppCompatActivity {
         });
 
         //Load the image and then load the article into the webview
-        mArticle.loadImageLink(WordpressREST.IMAGE_SIZE_MEDIUM, () ->
+        mArticle.loadImageLink(() ->
                 runOnUiThread(() ->
                         GlideApp.with(this).load(mArticle.getImageLink(WordpressREST.IMAGE_SIZE_MEDIUM_LARGE).toString()).into(mImage)));
 

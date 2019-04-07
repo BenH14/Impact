@@ -37,6 +37,8 @@ public class Article implements Headline, Serializable {
 
     private static final int BREAKING_CATEGORY_ID = 19171;
 
+    private static final boolean PRELOAD_IMAGE_LINKS = true;
+
     private final long              mId;
     private final String            mTitle;
     private final GregorianCalendar mDate;
@@ -252,6 +254,10 @@ public class Article implements Headline, Serializable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        if(PRELOAD_IMAGE_LINKS) {
+            loadImageLink();
+        }
     }
 
     /**
@@ -368,7 +374,7 @@ public class Article implements Headline, Serializable {
     }
 
     @Override
-    public void loadImageLink(int imageSize, @Nullable LoadCallback callback) {
+    public void loadImageLink(@Nullable LoadCallback callback) {
         new GetImageLinkTask((Map<Integer, URL> urls) -> {
             this.mImageLinks = urls;
 
@@ -378,7 +384,7 @@ public class Article implements Headline, Serializable {
         }).execute(getImageId());
     }
 
-    public void loadImageLink(int imageSize) {
-        loadImageLink(imageSize, null);
+    public void loadImageLink() {
+        loadImageLink(null);
     }
 }

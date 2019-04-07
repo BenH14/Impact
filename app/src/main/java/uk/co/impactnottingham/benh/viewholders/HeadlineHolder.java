@@ -80,7 +80,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
     }
 
     public void setArticle(Article article) {
-        GlideApp.with(itemView.getContext()).clear(mThumbnail);
+        mThumbnail.setImageDrawable(null);
 
         mTitle.setText(article.getTitle());
         try {
@@ -101,7 +101,7 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
             setImage(article.getImageLink(mImageSize));
         } else {
             final long startTime = System.currentTimeMillis();
-            article.loadImageLink(mImageSize, () -> {
+            article.loadImageLink(() -> {
                 if (article.hasLink()) {
                     itemView.post(() -> setImage(article.getImageLink(mImageSize)));
                 } else {
