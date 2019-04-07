@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 /**
@@ -55,12 +54,12 @@ public class WordpressRESTTest {
     public void testParsingImageLink() throws IOException {
         JsonReader mediaJson = getMediaJson();
 
-        Assert.assertEquals(new URL(EXPECTED_MEDIUM_LARGE_URL), new WordpressREST().getImageLink(mediaJson, WordpressREST.IMAGE_SIZE_MEDIUM_LARGE));
+        Assert.assertEquals(new URL(EXPECTED_MEDIUM_LARGE_URL), new WordpressREST().getImageLinks(mediaJson).get(WordpressREST.IMAGE_SIZE_MEDIUM_LARGE));
 
         mediaJson.close();
         mediaJson = getMediaJson();
 
-        Assert.assertEquals(new URL(EXPECTED_THUMBNAIL_URL), new WordpressREST().getImageLink(mediaJson, WordpressREST.IMAGE_SIZE_THUMBNAIL));
+        Assert.assertEquals(new URL(EXPECTED_THUMBNAIL_URL), new WordpressREST().getImageLinks(mediaJson).get(WordpressREST.IMAGE_SIZE_THUMBNAIL));
 
         mediaJson.close();
     }
