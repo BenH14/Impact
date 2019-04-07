@@ -16,6 +16,7 @@ import android.widget.*;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import uk.co.impactnottingham.benh.glide.GlideApp;
 import uk.co.impactnottingham.benh.impact.ArticleActivity;
+import uk.co.impactnottingham.benh.impact.Category;
 import uk.co.impactnottingham.benh.impact.R;
 import uk.co.impactnottingham.benh.wordpress.Article;
 import uk.co.impactnottingham.benh.wordpress.WordpressREST;
@@ -82,6 +83,11 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
 
         mTitle.setText(article.getTitle());
         try {
+            if (article.getCategory() == Category.DEFAULT) {
+                mCategory.setVisibility(View.INVISIBLE);
+            } else {
+                mCategory.setVisibility(View.VISIBLE);
+            }
             mCategory.setTextColor(article.getCategory().getColor(itemView.getContext()));
             mCategory.setText(article.getCategory().name());
         } catch (NullPointerException ex) {
