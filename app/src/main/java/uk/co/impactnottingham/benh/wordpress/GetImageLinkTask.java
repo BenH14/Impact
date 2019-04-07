@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by benh14 on 16/05/2018.
@@ -12,16 +13,14 @@ import java.net.URL;
 public class GetImageLinkTask extends AsyncTask<Integer, Integer, Void> {
     private static final String TAG = GetImageLinkTask.class.getName();
 
-    private final int               size;
     private final ImageLoadListener listener;
 
     public interface ImageLoadListener {
-        void onLoad(URL url);
+        void onLoad(Map<Integer, URL> urls);
     }
 
-    public GetImageLinkTask(int size, ImageLoadListener listener) {
+    public GetImageLinkTask(ImageLoadListener listener) {
         super();
-        this.size = size;
         this.listener = listener;
     }
 
@@ -30,7 +29,7 @@ public class GetImageLinkTask extends AsyncTask<Integer, Integer, Void> {
         WordpressREST wp = new WordpressREST();
         for (Integer id : integers) {
             try {
-                listener.onLoad(wp.loadImageLink(id, size));
+                listener.onLoad(wp.loadImageLinks(id));
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e(TAG, "Image failed to load");

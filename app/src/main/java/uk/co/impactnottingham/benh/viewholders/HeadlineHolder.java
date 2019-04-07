@@ -91,11 +91,12 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         mDate.setText(article.getTimeFromNow());
 
         if (article.hasLink()) {
-            setImage(article.getImageLink());
+            setImage(article.getImageLink(mImageSize));
         } else {
+            final long startTime = System.currentTimeMillis();
             article.loadImageLink(mImageSize, () -> {
-                if (article.getImageLink() != null) {
-                    itemView.post(() -> setImage(article.getImageLink()));
+                if (article.hasLink()) {
+                    itemView.post(() -> setImage(article.getImageLink(mImageSize)));
                 } else {
                     itemView.post(() -> GlideApp.with(itemView.getContext()).clear(mThumbnail));
                 }

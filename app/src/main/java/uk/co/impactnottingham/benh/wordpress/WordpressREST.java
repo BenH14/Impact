@@ -1,13 +1,8 @@
 package uk.co.impactnottingham.benh.wordpress;
 
-import android.content.Context;
-import android.media.Image;
-import android.os.AsyncTask;
+import android.annotation.SuppressLint;
 import android.util.JsonReader;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import com.bumptech.glide.Glide;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -15,8 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by benh14 on 1/26/18.
@@ -58,50 +52,58 @@ public class WordpressREST {
         return getJson(new URL(MEDIA_ENDPOINT_ADDRESS + String.valueOf(mediaId)), new RequestParameters());
     }
 
-    URL getImageLink(JsonReader json, int size) throws IOException {
+    @SuppressLint("UseSparseArrays")
+    Map<Integer, URL> getImageLinks(JsonReader json) throws IOException {
+        Map<Integer, URL> links = new HashMap<>();
 
-        URL    url = null;
-        String sizeName;
-
-        switch (size) {
-            case IMAGE_SIZE_FULL:
-                sizeName = "full";
-                break;
-            case IMAGE_SIZE_LARGE:
-                sizeName = "large";
-                break;
-            case IMAGE_SIZE_MEDIUM_LARGE:
-                sizeName = "medium_large";
-                break;
-            case IMAGE_SIZE_MEDIUM:
-                sizeName = "medium";
-                break;
-            case IMAGE_SIZE_THUMBNAIL:
-                sizeName = "thumbnail";
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid image size requested, use the constants");
-        }
+        int size = 0;
 
         json.beginObject();
 
         while (json.hasNext()) {
             String name = json.nextName();
-            if (name.equals("media_details") || name.equals("sizes") || name.equals(sizeName)) {
+            if (name.equals("media_details") || name.equals("sizes")) {
+                json.beginObject();
+            } else if (isSizeName(name)) {
+                size = getSizeCode(name);
                 json.beginObject();
             } else if (name.equals("source_url")) {
-                url = new URL(json.nextString());
+                links.put(size, new URL(json.nextString()));
+                json.endObject();
             } else {
                 json.skipValue();
             }
         }
 
-        return url;
+        return links;
     }
 
-    URL loadImageLink(int id, int size) throws IOException {
+    private boolean isSizeName(String input) {
+        return (input.equals("full") ||
+                input.equals("large") ||
+                input.equals("medium_large") ||
+                input.equals("medium") ||
+                input.equals("thumbnail"));
+    }
+
+    private int getSizeCode(String input) {
+        if (input.equals("full")) {
+            return IMAGE_SIZE_FULL;
+        } else if (input.equals("large")) {
+            return IMAGE_SIZE_LARGE;
+        } else if (input.equals("medium_large")) {
+            return IMAGE_SIZE_MEDIUM_LARGE;
+        } else if (input.equals("medium")) {
+            return IMAGE_SIZE_MEDIUM;
+        } else if (input.equals("thumbnail")) {
+            return IMAGE_SIZE_THUMBNAIL;
+        }
+        throw new IllegalArgumentException("Not a Size Name!");
+    }
+
+    Map<Integer, URL> loadImageLinks(int id) throws IOException {
         JsonReader json = getMediaJson(id);
-        return getImageLink(json, size);
+        return getImageLinks(json);
     }
 
     private JsonReader getJson(URL rootURL, RequestParameters params) throws IOException {

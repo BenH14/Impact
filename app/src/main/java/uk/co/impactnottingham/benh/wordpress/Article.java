@@ -7,13 +7,9 @@ import android.support.annotation.Nullable;
 import android.text.Html;
 import android.util.JsonReader;
 import android.util.Log;
-import android.widget.ImageView;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import uk.co.impactnottingham.benh.glide.GlideApp;
 import uk.co.impactnottingham.benh.impact.Category;
 import uk.co.impactnottingham.benh.impact.Headline;
 import uk.co.impactnottingham.benh.impact.LoadCallback;
-import uk.co.impactnottingham.benh.impact.R;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -24,8 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.concurrent.Future;
-import java.util.function.Function;
+import java.util.Map;
 
 /**
  * Created by benh14 on 12/18/17.
@@ -56,7 +51,7 @@ public class Article implements Headline, Serializable {
     private final Category          mCategory;
 
     private final int                     mImageId;
-    private       URL                     mImageLink;
+    private       Map<Integer, URL>       mImageLinks;
     private       WeakReference<Drawable> mImage;
 
     /**
@@ -73,7 +68,7 @@ public class Article implements Headline, Serializable {
         private int      featured_media;
         private boolean  sticky;
         private boolean  breaking;
-        private boolean  podcast = false;
+        private boolean  podcast  = false;
         private Category category = Category.DEFAULT;
         private String[] tags;
 
@@ -127,12 +122,12 @@ public class Article implements Headline, Serializable {
             while (json.hasNext()) {
                 int categoryId = json.nextInt();
                 for (Category c : Category.values()) {
-                     if (categoryId == c.getId()) {
-                         if (c == Category.PODCAST) {
-                             podcast = true;  // We don't ever want a category to be set to podcast
-                         } else {
-                             category = c;
-                         }
+                    if (categoryId == c.getId()) {
+                        if (c == Category.PODCAST) {
+                            podcast = true;  // We don't ever want a category to be set to podcast
+                        } else {
+                            category = c;
+                        }
                     }
                 }
                 if (categoryId == BREAKING_CATEGORY_ID) {
@@ -355,21 +350,27 @@ public class Article implements Headline, Serializable {
         return this;
     }
 
-    public URL getImageLink() {
-        return mImageLink;
+    public URL getImageLink(int size) {
+        Log.i(TAG, "getImageLink: mImagelinks size = " + mImageLinks.size());
+        if (mImageLinks.containsKey(size)) {
+            return mImageLinks.get(size);
+        } else {
+            Log.w(TAG, "getImageLink: No correct size img link found, returning any size", null);
+            return (URL) mImageLinks.values().toArray()[0];
+        }
     }
 
     public boolean hasLink() {
-        if (getImageLink() == null) {
+        if (mImageLinks == null) {
             return false;
         }
-        return getImageLink().toString().length() > 0;
+        return mImageLinks.size() > 0;
     }
 
     @Override
     public void loadImageLink(int imageSize, @Nullable LoadCallback callback) {
-        new GetImageLinkTask(imageSize, (URL url) -> {
-            this.mImageLink = url;
+        new GetImageLinkTask((Map<Integer, URL> urls) -> {
+            this.mImageLinks = urls;
 
             if (callback != null) {
                 callback.onLoad();
