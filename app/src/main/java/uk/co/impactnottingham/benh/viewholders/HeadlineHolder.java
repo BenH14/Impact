@@ -100,15 +100,10 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         if (article.hasLink()) {
             setImage(article.getImageLink(mImageSize));
         } else {
-            if (article.isLoadingImageLink()) {
-                article.setLoadCallback(() -> {
-                    itemView.post(() -> setImage(article.getImageLink(mImageSize)));
-                });
-            } else {
                 article.loadImageLink(() -> {
                         itemView.post(() -> setImage(article.getImageLink(mImageSize)));
                 });
-            }
+//            }
         }
 
         mSnippet.setText(article.getSnippet());
