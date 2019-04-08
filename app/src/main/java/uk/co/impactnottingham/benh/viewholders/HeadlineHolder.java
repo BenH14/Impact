@@ -100,14 +100,15 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
         if (article.hasLink()) {
             setImage(article.getImageLink(mImageSize));
         } else {
-            final long startTime = System.currentTimeMillis();
-            article.loadImageLink(() -> {
-                if (article.hasLink()) {
+            if (article.isLoadingImageLink()) {
+                article.setLoadCallback(() -> {
                     itemView.post(() -> setImage(article.getImageLink(mImageSize)));
-                } else {
-                    itemView.post(() -> GlideApp.with(itemView.getContext()).clear(mThumbnail));
-                }
-            });
+                });
+            } else {
+                article.loadImageLink(() -> {
+                        itemView.post(() -> setImage(article.getImageLink(mImageSize)));
+                });
+            }
         }
 
         mSnippet.setText(article.getSnippet());
@@ -130,7 +131,6 @@ public abstract class HeadlineHolder extends RecyclerView.ViewHolder {
                 .asDrawable()
                 .load(url.toString())
                 .placeholder(spinner)
-                .transition(DrawableTransitionOptions.withCrossFade(100))
                 .into((ImageView) itemView.findViewById(R.id.headline_image));
     }
 

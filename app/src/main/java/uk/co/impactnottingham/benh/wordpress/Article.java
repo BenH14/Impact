@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by benh14 on 12/18/17.
@@ -52,9 +53,11 @@ public class Article implements Headline, Serializable {
     private final String[]          mTags;
     private final Category          mCategory;
 
-    private final int                     mImageId;
-    private       Map<Integer, URL>       mImageLinks;
-    private       WeakReference<Drawable> mImage;
+    private final int               mImageId;
+    private       Map<Integer, URL> mImageLinks;
+    private       LoadCallback      mLoadCallback;
+
+    private AtomicBoolean mLoadingImageLink;
 
     /**
      * All fields in this class are mandatory.
@@ -255,7 +258,9 @@ public class Article implements Headline, Serializable {
             e.printStackTrace();
         }
 
-        if(PRELOAD_IMAGE_LINKS) {
+        mLoadingImageLink = new AtomicBoolean(false);
+
+        if (PRELOAD_IMAGE_LINKS) {
             loadImageLink();
         }
     }
@@ -373,14 +378,27 @@ public class Article implements Headline, Serializable {
         return mImageLinks.size() > 0;
     }
 
+    public boolean isLoadingImageLink() {
+        return mLoadingImageLink.get();
+    }
+    public void setLoadCallback(LoadCallback callback) {
+        mLoadCallback = callback;
+    }
+
     @Override
     public void loadImageLink(@Nullable LoadCallback callback) {
+        if (callback != null) {
+            mLoadCallback = callback;
+        }
+            mLoadingImageLink.set(true);
+
         new GetImageLinkTask((Map<Integer, URL> urls) -> {
             this.mImageLinks = urls;
 
-            if (callback != null) {
-                callback.onLoad();
+            if (mLoadCallback != null) {
+                mLoadCallback.onLoad();
             }
+            mLoadingImageLink.compareAndSet(false, true);
         }).execute(getImageId());
     }
 
