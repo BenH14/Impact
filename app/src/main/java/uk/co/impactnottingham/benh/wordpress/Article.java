@@ -57,7 +57,7 @@ public class Article implements Headline, Serializable {
     private       Map<Integer, URL> mImageLinks;
     private       LoadCallback      mLoadCallback;
 
-    private AtomicBoolean mLoadingImageLink;
+    private boolean mLoadingImageLink;  // I could use an atomic reference but it causes issues with serializing
 
     /**
      * All fields in this class are mandatory.
@@ -258,7 +258,7 @@ public class Article implements Headline, Serializable {
             e.printStackTrace();
         }
 
-        mLoadingImageLink = new AtomicBoolean(false);
+        mLoadingImageLink = false;
 
         if (PRELOAD_IMAGE_LINKS) {
             loadImageLink();
@@ -379,7 +379,7 @@ public class Article implements Headline, Serializable {
     }
 
     public boolean isLoadingImageLink() {
-        return mLoadingImageLink.get();
+        return mLoadingImageLink;
     }
     public void setLoadCallback(LoadCallback callback) {
         mLoadCallback = callback;
@@ -390,7 +390,7 @@ public class Article implements Headline, Serializable {
         if (callback != null) {
             mLoadCallback = callback;
         }
-            mLoadingImageLink.set(true);
+            mLoadingImageLink = true;
 
         new GetImageLinkTask((Map<Integer, URL> urls) -> {
             this.mImageLinks = urls;
@@ -398,7 +398,7 @@ public class Article implements Headline, Serializable {
             if (mLoadCallback != null) {
                 mLoadCallback.onLoad();
             }
-            mLoadingImageLink.compareAndSet(false, true);
+            mLoadingImageLink = false;
         }).execute(getImageId());
     }
 
